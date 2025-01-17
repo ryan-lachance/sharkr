@@ -1,6 +1,8 @@
 import { Text, View } from "react-native";
+import {TEST_ENV} from "@env";
 
 export default function Index() {
+  console.log(TEST_ENV)
   return (
     <View
       style={{
