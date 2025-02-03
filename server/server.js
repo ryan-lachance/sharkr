@@ -3,6 +3,7 @@ require('dotenv').config()
 const env = process.env
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const loanRoutes = require('./routes/loans')
 
 
@@ -11,6 +12,8 @@ const app = express()
 
 //Middleware
 app.use(express.json())
+app.use(cors())
+
 
 
 app.use((req,res,next) => {
