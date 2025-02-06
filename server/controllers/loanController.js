@@ -29,11 +29,11 @@ const getLoan = async (req,res) => {
 
 // create new loan
 const createLoan = async (req, res) => {
-    const {name, owed} = req.body
+    const {name, loaner_id, owed} = req.body
 
     // add doc to db
     try {
-        const loan = await Loan.create({name, owed})
+        const loan = await Loan.create({name, loaner_id, owed})
         res.status(200).json(loan)
     }
     catch (error){
