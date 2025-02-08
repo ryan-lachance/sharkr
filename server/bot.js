@@ -23,8 +23,8 @@ async function dmUser(userID){
     }
 }
 
-
+console.log('Bot is running')
 
 client.login(env.DISCORD_TOKEN)
 
-module.exports = {dmUser}
+module.exports = {client, dmUser}

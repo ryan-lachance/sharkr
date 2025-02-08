@@ -1,12 +1,16 @@
 const { ReturnDocument } = require('mongodb')
 const Loan = require('../models/loanModel')
 const mongoose = require('mongoose')
+const bot = require('../bot') //Bot commands can be called directly in this script, and will work.
+
+
 
 // get all loans
 const getLoans = async(req,res) => {
     const loans = await Loan.find({}).sort({createdAt: -1})
 
     res.status(200).json(loans)
+    
 }
 
 // get single loan
@@ -25,15 +29,18 @@ const getLoan = async (req,res) => {
     }
 
     res.status(200).json(loan)
+
+    
 }
 
 // create new loan
 const createLoan = async (req, res) => {
-    const {name, loaner_id, owed} = req.body
-
+    
     // add doc to db
     try {
-        const loan = await Loan.create({name, loaner_id, owed})
+        const {loan_name, lender, borrowers} = req.body
+
+        const loan = await Loan.create({loan_name, lender, borrowers})
         res.status(200).json(loan)
     }
     catch (error){
@@ -62,21 +69,35 @@ const createLoan = async (req, res) => {
  }
 
 // update a loan
-const updateLoan = async (req,res) => {
+const removeBorrower = async (req,res) => {
+    try {
+        const {loan_id, borrower_id} = req.params
+        const updatedLoan = await Loan.findByIdAndUpdate(
+            loan_id,
+            { $pull: { borrowers: { borrower_id: borrower_id } } },
+            { new: true } // Returns the updated document
+        );
 
-    const {id} = req.params
+        if (!updatedLoan) {
+            return res.status(404).json({ error: 'Loan not found' });
+        }
 
-    if (!mongoose.Types.ObjectId.isValid(id)){
-        return res.status(404).json({error: 'No such loan'})
+        
+
+        if (updatedLoan.borrowers.length == 0){
+            const loan = await Loan.findOneAndDelete({_id: loan_id})
+            res.status(200).json(loan)
+        }else{
+            res.json(updatedLoan);
+        }
+
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
     }
 
-    const loan = await Loan.findOneAndUpdate({_id: id}, {...req.body})
 
-    if (!loan) {
-        return res.status(400).json({error: 'No such loan'})
-    }
-
-    res.status(200).json(loan)
 
 }
 
@@ -86,5 +107,5 @@ module.exports = {
     getLoan,
     createLoan,
     deleteLoan,
-    updateLoan
+    removeBorrower
 }

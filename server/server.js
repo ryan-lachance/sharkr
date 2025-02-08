@@ -26,7 +26,6 @@ app.use((req,res,next) => {
 app.use('/api/loans', loanRoutes)
 
 
-
 // connect to db
 mongoose.connect(env.MONGO_URI)
     .then(() => {
