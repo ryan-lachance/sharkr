@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const loanRoutes = require('./routes/loans')
 const bot = require('./bot')
+const cron = require('node-cron')
+
 
 //express app
 const app = express()
@@ -27,13 +29,15 @@ app.use('/api/loans', loanRoutes)
 
 
 // connect to db
-mongoose.connect(env.MONGO_URI)
-    .then(() => {
-        //listner
-        app.listen(env.PORT, () =>{
-            console.log('Connected to DB and listening on Port 2000!')
-        })
-    })
-    .catch((error => {console.log(error)}));
+mongoose.connect(env.MONGO_URI).then(
+    () => {app.listen(env.PORT, () =>
+        {console.log('Connected to DB and listening on Port 2000!')})}).catch((error => {console.log(error)})
+);  
 
 
+cron.schedule('0 0 * * *', () => {
+    bot.maintain()
+}, {
+    scheduled: true,
+    timezone: "America/New_York" // Adjust for your timezone
+});
