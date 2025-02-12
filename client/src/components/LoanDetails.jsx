@@ -4,8 +4,7 @@ function LoanDetails({loan}){
     return(
 
         <div className="loan-details">
-            <h3>{loan.name}</h3>
-            <p>{loan.owed}</p>
+            <h3>{loan.loan_name}</h3>
         </div>
     )
 }

@@ -4,19 +4,17 @@ import { useEffect, useState } from "react"
 import LoanDetails from '../components/LoanDetails'
 
 function Home(){
+    const api = import.meta.env.VITE_API_PATH
     
     const [loans, setLoans] = useState(null)
 
     useEffect(() => {
         const fetchLoans = async () =>{
-            console.log('test0')
-            const response = await fetch('http://localhost:2000/api/loans') //Add path to env
+            const response = await fetch(`${api}/loans`) //Add path to env
             const json = await response.json()
-            console.log('test1')
+
             
             if (response.ok){
-                
-
                 setLoans(json)
             }
 
