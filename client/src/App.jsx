@@ -5,6 +5,7 @@ import './App.css'
 
 //Pages
 import Home from './pages/home'
+import RemoveBorrowerPage from './pages/RemoveBorrower'
 
 
 //Components
@@ -20,6 +21,7 @@ function App() {
         <div className="pages">
           <Routes>
             <Route path="/" element = {<Home/>}/>
+            <Route path="/loans/:loan_id/:borrower_id" element={<RemoveBorrowerPage />} />
           </Routes>
         </div>
       </BrowserRouter>

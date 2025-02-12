@@ -18,7 +18,23 @@ console.log('Bot is running')
 
 
 async function maintain() {
-    await remindAll()  
+    // await remindAll()  
+}
+
+async function remind(loan_id){
+    try{
+        const loan = await Loan.findById(loan_id)
+
+        for (const borrower of loan.borrowers) {
+            const user = await client.users.fetch(borrower.borrower_id);
+            await user.send(`This is a reminder you owe ${loan.lender.lender_name} ${borrower.owed} doubloons for ${loan.loan_name}.`)
+            await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
+        }
+    }catch (error){
+        console.error('Error fetching loan:', error);
+    }
+    
+
 }
 
 async function remindAll() {
@@ -29,7 +45,7 @@ async function remindAll() {
             try{
                 for (const borrower of loan.borrowers) {
                     const user = await client.users.fetch(borrower.borrower_id);
-                    await user.send(`This is a reminder you owe ${loan.lender.lender_name} ${borrower.owed} dubloons for ${loan.loan_name}.`)
+                    await user.send(`This is a reminder you owe ${loan.lender.lender_name} ${borrower.owed} doubloons for ${loan.loan_name}.`)
                     await new Promise(resolve => setTimeout(resolve, 2000)); // 2s delay
                 }
             }catch (error) {
