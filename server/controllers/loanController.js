@@ -41,6 +41,7 @@ const createLoan = async (req, res) => {
         const {loan_name, lender, borrowers} = req.body
 
         const loan = await Loan.create({loan_name, lender, borrowers})
+        // bot.remind(loan._id) // Needs to be tested
         res.status(200).json(loan)
     }
     catch (error){
