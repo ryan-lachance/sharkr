@@ -1,3 +1,5 @@
+require('dotenv').config()
+const env = process.env
 const express = require('express')
 const passport = require('passport')
 
@@ -6,11 +8,11 @@ const router = express.Router()
 
 router.get('/', passport.authenticate('discord'))
 router.get('/redirect', passport.authenticate('discord', {
-    failureRedirect: '/forbidden',
+    failureRedirect: '/failure',
 
 }), (req, res) => {
     console.log(req.user)
-    res.send(200);
+    res.redirect(env.CLIENT_URL)
    
 })
 
@@ -26,7 +28,7 @@ router.get('/logout', (req, res, next) => {
     req.logout(function(err) {
         if (err) { return next(err); }
         req.session.destroy(() => {
-            res.json({ message: 'Logged out' });
+            res.redirect(env.CLIENT_URL)
         });
     });
 });

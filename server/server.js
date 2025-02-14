@@ -19,7 +19,10 @@ const app = express()
 
 //Middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: env.CLIENT_URL, // Allow frontend URL
+    credentials: true // Allow cookies/sessions
+}))
 app.use(session({
     secret: 'wef233g3gd',
     resave: false,

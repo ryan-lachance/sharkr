@@ -1,36 +1,42 @@
 import { useEffect, useState } from "react"
 
 //component
-import LoanDetails from '../components/LoanDetails'
+
 
 function Home(){
     const api = import.meta.env.VITE_API_PATH
-    
-    const [loans, setLoans] = useState(null)
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    let userSession = {isAuthenticated: false}
 
     useEffect(() => {
-        const fetchLoans = async () =>{
-            const response = await fetch(`${api}/loans`) //Add path to env
-            const json = await response.json()
+        fetch(`${api}/auth/status`, {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            userSession = data
+            console.log(userSession)
+            setIsLoggedIn(userSession.isAuthenticated)
+        })
+        .catch(error => console.error("Error:", error));
+    }, []);
 
-            
-            if (response.ok){
-                setLoans(json)
-            }
+   
+    function login(){
+        window.location.href = `${api}/auth`
+    }
+    
+    function logout(){
+        window.location.href = `${api}/auth/logout`
+    }
 
-        }
-
-        fetchLoans()
-
-    }, [])
+    
 
     return(
-        <div className="home">
-            <div className="loans">
-                {loans && loans.map((loan) => (
-                    <LoanDetails key={loan._id} loan={loan}/>
-                ))}
-            </div>
+        <div>
+            <div>{isLoggedIn ? <button onClick={logout}>Logout</button> : <button onClick={login}>Login</button>}</div>
+            <h1>{isLoggedIn ? "Logged In" : "Not Logged In"}</h1>
         </div>
     )
 }
