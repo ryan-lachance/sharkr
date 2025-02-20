@@ -20,10 +20,10 @@ const app = express()
 //Middleware
 app.use(express.json())
 app.use(cors({
-    origin: env.CLIENT_URL, // Allow frontend URL
-    credentials: true // Allow cookies/sessions
+    origin: env.CLIENT_URL, 
+    credentials: true 
 }))
-app.use(session({
+app.use(session({ //Add session store
     secret: 'wef233g3gd',
     resave: false,
     cookie: {
@@ -59,5 +59,5 @@ cron.schedule('0 0 * * *', () => {
     bot.maintain()
 }, {
     scheduled: true,
-    timezone: "America/New_York" // Adjust for your timezone
+    timezone: "America/New_York" 
 });
