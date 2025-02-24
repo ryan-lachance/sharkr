@@ -5,7 +5,7 @@ const passport = require('passport')
 
 
 passport.serializeUser((user, done) => {
-    done(null, { id: user.id, username: user.username}); // Store the full profile in session
+    done(null, { id: user.id, username: user.username, guilds: user.guilds}); // Store the full profile in session
 });
 
 passport.deserializeUser((obj, done) => {

@@ -19,7 +19,7 @@ function SplitView() {
           flexDirection: "column",
         }}
       >
-                <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom>
           Menu
         </Typography>
         <Typography>test</Typography>

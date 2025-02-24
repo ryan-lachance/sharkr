@@ -58,7 +58,42 @@ async function remindAll() {
     }
 }
 
+function guildsWithin() {
+    return client.guilds.cache.map(guild => ({
+        id: guild.id,
+        name: guild.name,
+        icon: guild.icon, // This is the hash, you may need to construct a full URL
+        banner: guild.banner, // Only available for certain servers
+        owner: guild.ownerId === client.user.id, // Checks if bot is owner
+        permissions: guild.permissions?.bitfield || 0, // Bot permissions in this guild
+        permissions_new: guild.permissions?.toString() || '0', // New permissions format
+        features: guild.features // List of features enabled on this guild
+    }));
+}
+
+async function membersInGuild(guildId) {
+    try {
+        const guild = client.guilds.cache.get(guildId);
+        
+
+        const members = await guild.members.fetch();
+        const formattedMembers = members.map(member => ({
+            id: member.user.id,
+            username: member.user.username,
+            discriminator: member.user.discriminator,
+            avatar: member.user.avatar
+        }));
+
+        return(formattedMembers)
+
+    } catch (error) {
+        console.error("Error fetching guild members:", error);
+        return [];
+    }
+}
+
+
 
 client.login(env.DISCORD_TOKEN)
 
-module.exports = {client, maintain}
+module.exports = {client, maintain, guildsWithin, membersInGuild}

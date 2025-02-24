@@ -10,25 +10,45 @@ import SplitView from "../components/SplitView";
 function Dashboard(){
     const api = import.meta.env.VITE_API_PATH
     const [userSession, setUserSession] = useState({isAuthenticated: false});
-    const [loading, setLoading] = useState(true);
+    const [guilds, setGuilds] = useState([])
     
-
-    useEffect(() => {
+    function authUser(){
         fetch(`${api}/auth/status`, {
             method: "GET",
             credentials: "include"
         })
         .then(response => response.json())
         .then(data => {
+            
             setUserSession(data)
-            setLoading(false)
+            console.log(data)
         })
         .catch(error => console.error("Error:", error));
+    }
+
+    function getGuilds(){
+        fetch(`${api}/guilds`, {
+            method: "GET",
+            credentials: "include"
+        })
+        .then(response => response.json())
+        .then(data => {
+            
+            setGuilds(data)
+            console.log(data)
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+
+
+    useEffect(() => {
+        authUser()
+        getGuilds()
+
     }, []);
 
-    if (loading){
-        return <Typography>Loading...</Typography>;
-    }
+
 
     return(
         <Container>

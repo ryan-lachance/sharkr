@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const loanRoutes = require('./routes/loans')
 const authRoutes = require('./routes/auth')
+const guildRoutes = require('./routes/guilds')
 const bot = require('./bot')
 const cron = require('node-cron')
 const session = require('express-session')
@@ -46,6 +47,8 @@ app.use((req,res,next) => {
 //Routes
 app.use('/api/loans', loanRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/guilds', guildRoutes)
+
 
 
 // connect to db
