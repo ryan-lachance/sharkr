@@ -7,7 +7,5 @@ const router = express.Router()
 //Get all guilds
 router.get('/', getGuilds)
 
-router.get('/members/:id', getGuildMembers)
-
 
 module.exports = router
