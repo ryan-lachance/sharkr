@@ -11,6 +11,7 @@ function Dashboard(){
     const api = import.meta.env.VITE_API_PATH
     const [userSession, setUserSession] = useState({isAuthenticated: false});
     const [guilds, setGuilds] = useState([])
+    const [loans, setLoans] = useState([]) //Get all loans of the current user.
     
     function authUser(){
         fetch(`${api}/auth/status`, {
@@ -40,6 +41,9 @@ function Dashboard(){
         .catch(error => console.error("Error:", error));
     }
 
+    function getUserLoans(){
+        //Get all loans of the current user
+    }
 
 
     useEffect(() => {
@@ -53,7 +57,7 @@ function Dashboard(){
     return(
         <Container>
             <Typography>This is the dashboard</Typography>
-            <SplitView/>
+            <SplitView guilds={guilds}/>
         </Container>
     )
 }

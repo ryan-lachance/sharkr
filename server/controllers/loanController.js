@@ -32,7 +32,23 @@ const getLoan = async (req,res) => {
 
     
 }
+const getUsersLoans = async (req,res) => {
+    try{
+        const {id} = req.params
 
+        const loans = await Loan.find({"lender.lender_id" : id}).sort({createdAt: -1})
+    
+        res.status(200).json(loans)
+    }catch{
+        return res.status(404).json({error: 'No such loan'})
+    }
+
+    
+    
+
+
+    
+}
 // create new loan
 const createLoan = async (req, res) => {
     
@@ -108,5 +124,6 @@ module.exports = {
     getLoan,
     createLoan,
     deleteLoan,
-    removeBorrower
+    removeBorrower,
+    getUsersLoans
 }

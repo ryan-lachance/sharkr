@@ -1,5 +1,5 @@
 const express = require('express')
-const {getLoan, getLoans, createLoan, deleteLoan, removeBorrower} = require('../controllers/loanController')
+const {getLoan, getLoans, createLoan, deleteLoan, removeBorrower, getUsersLoans} = require('../controllers/loanController')
 
 const router = express.Router()
 
@@ -8,6 +8,9 @@ router.get('/', getLoans)
 
 //Get a specific loan
 router.get('/:id', getLoan)
+
+//Get all loans from specific user
+router.get('/users/:id', getUsersLoans)
 
 // Add loan
 router.post('/', createLoan)
