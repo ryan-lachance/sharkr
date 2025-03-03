@@ -6,7 +6,10 @@ import SplitView from "../components/SplitView";
 
 function Dashboard() {
   const API = import.meta.env.VITE_API_PATH;
-  const [userSession, setUserSession] = useState({ isAuthenticated: false });
+  const [userSession, setUserSession] = useState({
+    isAuthenticated: false,
+    user: { id: null },
+  });
   const [guilds, setGuilds] = useState([]);
   const [loans, setLoans] = useState([]); //Get all loans of the current user.
 
@@ -37,7 +40,15 @@ function Dashboard() {
   }
 
   function getUserLoans() {
-    //Get all loans of the current user
+    fetch(`${API}/loans/users/${userSession.user.id}`, {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setLoans(data);
+      })
+      .catch((error) => console.error("Error:", error));
   }
 
   useEffect(() => {
@@ -45,10 +56,16 @@ function Dashboard() {
     getGuilds();
   }, []);
 
+  useEffect(() => {
+    if (userSession.isAuthenticated) {
+      getUserLoans();
+    }
+  }, [userSession]);
+
   return (
     <Container>
       <Typography>This is the dashboard</Typography>
-      <SplitView guilds={guilds} />
+      <SplitView guilds={guilds} loans={loans} />
     </Container>
   );
 }
