@@ -1,26 +1,31 @@
-const express = require('express')
-const {getLoan, getLoans, createLoan, deleteLoan, removeBorrower, getUsersLoans} = require('../controllers/loanController')
+const express = require("express");
+const {
+  getLoan,
+  getLoans,
+  createLoan,
+  deleteLoan,
+  removeBorrower,
+  getUsersLoans,
+} = require("../controllers/loanController");
 
-const router = express.Router()
+const router = express.Router();
 
 //Get all loans
-router.get('/', getLoans)
+router.get("/", getLoans);
 
 //Get a specific loan
-router.get('/:id', getLoan)
+router.get("/:id", getLoan);
 
 //Get all loans from specific user
-router.get('/users/:id', getUsersLoans)
+router.get("/users/:id", getUsersLoans);
 
 // Add loan
-router.post('/', createLoan)
+router.post("/", createLoan);
 
 // Delete Loan
-router.delete('/:id', deleteLoan)
+router.delete("/:id", deleteLoan);
 
 //Remove a borrower from a loan
-router.delete('/:loan_id/borrowers/:borrower_id', removeBorrower)
+router.delete("/:loan_id/borrowers/:borrower_id", removeBorrower);
 
-
-
-module.exports = router
+module.exports = router;

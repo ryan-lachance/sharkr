@@ -1,11 +1,12 @@
-const express = require('express')
-const {getGuilds, getGuildMembers} = require('../controllers/guildController')
+const express = require("express");
+const {
+  getGuilds,
+  getGuildMembers,
+} = require("../controllers/guildController");
 
-
-const router = express.Router()
+const router = express.Router();
 
 //Get all guilds
-router.get('/', getGuilds)
+router.get("/", getGuilds);
 
-
-module.exports = router
+module.exports = router;
