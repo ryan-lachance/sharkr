@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function SplitView({ guilds, loans, deleteLoan }) {
+function SplitView({ guilds, loans, deleteLoan, openPopUp }) {
   const [setLoading, loading] = useState(true);
   const [selectedLoan, setSelectedLoan] = useState("");
 
@@ -62,7 +62,11 @@ function SplitView({ guilds, loans, deleteLoan }) {
             ))}
           </RadioGroup>
         </FormControl>
-        <Button variant="contained" sx={{ mt: "auto" }}>
+        <Button
+          variant="contained"
+          sx={{ mt: "auto" }}
+          onClick={() => openPopUp()}
+        >
           New Loan
         </Button>
       </Box>

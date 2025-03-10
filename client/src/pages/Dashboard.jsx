@@ -1,8 +1,17 @@
 import { useEffect, useState } from "react";
-import { Container, Box, Typography } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 //component
 import SplitView from "../components/SplitView";
+import { default as PopUp } from "../components/NewLoan";
 
 function Dashboard() {
   const API = import.meta.env.VITE_API_PATH;
@@ -13,7 +22,15 @@ function Dashboard() {
   const [guilds, setGuilds] = useState([]);
   //need a guild members prop?
   const [loans, setLoans] = useState([]); //Get all loans of the current user.
-  const [popUp, setPopUp] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   function authUser() {
     fetch(`${API}/auth/status`, {
@@ -83,9 +100,9 @@ function Dashboard() {
         guilds={guilds}
         loans={loans}
         deleteLoan={deleteLoan}
-        setPopUp={setPopUp}
+        openPopUp={handleClickOpen}
       />
-      {popUp && <p>test</p>}
+      <PopUp open={open} onClose={handleClose} />
     </Container>
   );
 }
