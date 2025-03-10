@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Typography,
   List,
   ListItem,
@@ -7,13 +8,23 @@ import {
   Paper,
   ListItemAvatar,
   Avatar,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function SplitView({ guilds, loans }) {
+function SplitView({ guilds, loans, deleteLoan }) {
   const [setLoading, loading] = useState(true);
-  console.log(loans);
+  const [selectedLoan, setSelectedLoan] = useState("");
 
+  const handleLoanChange = (event) => {
+    const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
+    setSelectedLoan(loan);
+  };
   return (
     <Paper
       sx={{
@@ -35,34 +46,52 @@ function SplitView({ guilds, loans }) {
           flexDirection: "column",
         }}
       >
-        <Typography variant="h6" gutterBottom>
-          Loans
-        </Typography>
-        <List>
-          {loans.map((loan) => (
-            <ListItem key={loan._id}>
-              <ListItemText>{loan.loanName}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
+        <FormControl sx={{ maxHeight: 200, overflow: "auto" }}>
+          <FormLabel>Loans</FormLabel>
+          <RadioGroup
+            value={selectedLoan?._id || ""}
+            onChange={handleLoanChange}
+          >
+            {loans.map((loan) => (
+              <FormControlLabel
+                key={loan._id}
+                value={loan._id}
+                control={<Radio />}
+                label={loan.loanName}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
+        <Button variant="contained" sx={{ mt: "auto" }}>
+          New Loan
+        </Button>
       </Box>
 
       {/* Right Section - Content */}
-      <Box sx={{ width: "70%", p: 3 }}>
-        <Typography>Servers</Typography>
-        <List>
-          {guilds.map((guild) => (
-            <ListItem key={guild.id}>
-              <ListItemAvatar>
-                <Avatar
-                  src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
-                />
-              </ListItemAvatar>
-              <ListItemText>{guild.name}</ListItemText>
-            </ListItem>
+      {selectedLoan && (
+        <Box sx={{ width: "70%", p: 3 }} key={selectedLoan._id}>
+          <TextField label="Loan Name" defaultValue={selectedLoan.loanName} />
+          <Typography>Server: {selectedLoan.guild.guildName}</Typography>
+          {selectedLoan.borrowers.map((borrower) => (
+            <Typography key={borrower.borrowerId}>
+              {borrower.borrowerName}
+            </Typography>
           ))}
-        </List>
-      </Box>
+          <Button variant="contained" sx={{ mt: "auto" }}>
+            Update
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ mt: "auto", bgcolor: "DarkRed" }}
+            onClick={() => deleteLoan(selectedLoan._id)}
+          >
+            Delete
+          </Button>
+          <Button variant="contained" sx={{ mt: "auto" }}>
+            Remind All
+          </Button>
+        </Box>
+      )}
     </Paper>
   );
 }

@@ -6,7 +6,10 @@ const Schema = mongoose.Schema;
 const loanSchema = new Schema(
   {
     loanName: { type: String, required: true },
-    guildId: { type: String, require: true },
+    guild: {
+      guildId: { type: String, require: true },
+      guildName: { type: String, require: true },
+    },
     lender: {
       lenderId: { type: String, required: true },
       lenderName: { type: String, required: true },

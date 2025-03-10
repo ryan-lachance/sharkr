@@ -1,50 +1,58 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import {Container, Box} from '@mui/material'
-import './App.css'
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Container, Box } from "@mui/material";
+import "./App.css";
 
 //Pages
-import Home from './pages/home'
-import RemoveBorrowerPage from './pages/RemoveBorrower'
-import Initalize from './pages/Initalize'
-import Dashboard from './pages/Dashboard'
-
+import Home from "./pages/home";
+import RemoveBorrowerPage from "./pages/RemoveBorrower";
+import Initalize from "./pages/Initalize";
+import Dashboard from "./pages/Dashboard";
 
 //Components
-import NavBar from './components/NavBar'
-import ProtectedRoute from './components/ProtectedRoute'
-
+import NavBar from "./components/NavBar";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
-      fetch("http://localhost:2000/api/auth/status", {
-          method: "GET",
-          credentials: "include",
-      })
-      .then(response => response.json())
-      .then(data => setIsLoggedIn(data.isAuthenticated))
-      .catch(error => console.error("Error:", error));
+    fetch("http://localhost:2000/api/auth/status", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((response) => response.json())
+      .then((data) => setIsLoggedIn(data.isAuthenticated))
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   return (
-    <Container className="App" sx = {{bgcolor:'red',display:'flex', justifyContent:'center', alignItems:'center',minHeight:'100vh'}}>
+    <Container
+      className="App"
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
+    >
       <BrowserRouter>
         <Box className="pages">
           <Routes>
-            <Route path="/" element = {<Initalize/>}/>
-            <Route path="/Home" element = {<Home/>}/>
+            <Route path="/" element={<Initalize />} />
+            <Route path="/Home" element={<Home />} />
             <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
-            <Route path="/loans/:loan_id/:borrower_id" element={<RemoveBorrowerPage />} />
+            <Route
+              path="/loans/:loan_id/:borrower_id"
+              element={<RemoveBorrowerPage />}
+            />
           </Routes>
         </Box>
       </BrowserRouter>
     </Container>
-  )
+  );
 }
 
-export default App
+export default App;

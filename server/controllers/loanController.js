@@ -43,9 +43,14 @@ const getUsersLoans = async (req, res) => {
 const createLoan = async (req, res) => {
   // add doc to db
   try {
-    const { loanName, lender, borrowers } = req.body;
+    const { loanName, guild, lender, borrowers } = req.body;
 
-    const loan = await Loan.create({ loanName: loanName, lender, borrowers });
+    const loan = await Loan.create({
+      loanName: loanName,
+      guild,
+      lender,
+      borrowers,
+    });
     // bot.remind(loan._id) // Needs to be tested
     res.status(200).json(loan);
   } catch (error) {

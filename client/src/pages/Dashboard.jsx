@@ -11,7 +11,9 @@ function Dashboard() {
     user: { id: null },
   });
   const [guilds, setGuilds] = useState([]);
+  //need a guild members prop?
   const [loans, setLoans] = useState([]); //Get all loans of the current user.
+  const [popUp, setPopUp] = useState(false);
 
   function authUser() {
     fetch(`${API}/auth/status`, {
@@ -21,7 +23,6 @@ function Dashboard() {
       .then((response) => response.json())
       .then((data) => {
         setUserSession(data);
-        console.log(data);
       })
       .catch((error) => console.error("Error:", error));
   }
@@ -34,7 +35,6 @@ function Dashboard() {
       .then((response) => response.json())
       .then((data) => {
         setGuilds(data);
-        console.log(data);
       })
       .catch((error) => console.error("Error:", error));
   }
@@ -50,6 +50,21 @@ function Dashboard() {
       })
       .catch((error) => console.error("Error:", error));
   }
+  function deleteLoan(loanId) {
+    fetch(`${API}/loans/${loanId}`, {
+      method: "DELETE",
+      credentials: "include",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete");
+        }
+        return response.json();
+      })
+      .then((data) => console.log("Deleted successfully:", data))
+      .catch((error) => console.error("Error:", error));
+    window.location.reload();
+  }
 
   useEffect(() => {
     authUser();
@@ -64,8 +79,13 @@ function Dashboard() {
 
   return (
     <Container>
-      <Typography>This is the dashboard</Typography>
-      <SplitView guilds={guilds} loans={loans} />
+      <SplitView
+        guilds={guilds}
+        loans={loans}
+        deleteLoan={deleteLoan}
+        setPopUp={setPopUp}
+      />
+      {popUp && <p>test</p>}
     </Container>
   );
 }

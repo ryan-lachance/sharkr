@@ -16,7 +16,6 @@ function Home() {
       .then((response) => response.json())
       .then((data) => {
         userSession = data;
-        console.log(userSession);
         setIsLoggedIn(userSession.isAuthenticated);
       })
       .catch((error) => console.error("Error:", error));
