@@ -102,7 +102,12 @@ function Dashboard() {
         deleteLoan={deleteLoan}
         openPopUp={handleClickOpen}
       />
-      <PopUp open={open} onClose={handleClose} />
+      <PopUp
+        open={open}
+        onClose={handleClose}
+        guilds={guilds}
+        userSession={userSession}
+      />
     </Container>
   );
 }

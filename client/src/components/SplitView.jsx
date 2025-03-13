@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function SplitView({ guilds, loans, deleteLoan, openPopUp }) {
+function SplitView({ guilds, loans, Loan, deleteLoan, openPopUp }) {
   const [setLoading, loading] = useState(true);
   const [selectedLoan, setSelectedLoan] = useState("");
 
