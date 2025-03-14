@@ -17,14 +17,39 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function SplitView({ guilds, loans, Loan, deleteLoan, openPopUp }) {
-  const [setLoading, loading] = useState(true);
+function SplitView({ guilds, loans, Loan, deleteLoan, updateLoan, openPopUp }) {
   const [selectedLoan, setSelectedLoan] = useState("");
 
   const handleLoanChange = (event) => {
     const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
     setSelectedLoan(loan);
   };
+
+  function addBorrower() {}
+
+  const removeBorrower = (id) => {
+    setSelectedLoan((prevLoan) => ({
+      ...prevLoan,
+      borrowers: prevLoan.borrowers.filter((b) => b.borrowerId !== id),
+    }));
+  };
+
+  function renameLoan(newName) {
+    setSelectedLoan((prevLoan) => ({
+      ...prevLoan,
+      loanName: newName,
+    }));
+  }
+
+  function setOwed(value, borrowerId) {
+    setSelectedLoan((prevLoan) => ({
+      ...prevLoan,
+      borrowers: prevLoan.borrowers.map((b) =>
+        b.borrowerId === borrowerId ? { ...b, owed: value } : b
+      ),
+    }));
+  }
+
   return (
     <Paper
       sx={{
@@ -74,14 +99,39 @@ function SplitView({ guilds, loans, Loan, deleteLoan, openPopUp }) {
       {/* Right Section - Content */}
       {selectedLoan && (
         <Box sx={{ width: "70%", p: 3 }} key={selectedLoan._id}>
-          <TextField label="Loan Name" defaultValue={selectedLoan.loanName} />
+          <TextField
+            label="Loan Name"
+            defaultValue={selectedLoan.loanName}
+            onChange={(e) => renameLoan(e.target.value)}
+          />
           <Typography>Server: {selectedLoan.guild.guildName}</Typography>
           {selectedLoan.borrowers.map((borrower) => (
-            <Typography key={borrower.borrowerId}>
-              {borrower.borrowerName}
-            </Typography>
+            <Box
+              key={borrower.borrowerId}
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <Typography>{borrower.borrowerName}</Typography>
+              <Button
+                size="small"
+                variant="contained"
+                color="error"
+                onClick={() => removeBorrower(borrower.borrowerId)}
+              >
+                X
+              </Button>
+              <TextField
+                label="Amount"
+                type="number"
+                defaultValue={borrower.owed}
+                onChange={(e) => setOwed(e.target.value, borrower.borrowerId)}
+              />
+            </Box>
           ))}
-          <Button variant="contained" sx={{ mt: "auto" }}>
+          <Button
+            variant="contained"
+            sx={{ mt: "auto" }}
+            onClick={() => updateLoan(selectedLoan)}
+          >
             Update
           </Button>
           <Button

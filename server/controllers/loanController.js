@@ -58,6 +58,29 @@ const createLoan = async (req, res) => {
   }
 };
 
+const updateLoan = async (req, res) => {
+  try {
+    const { loanName, guild, lender, borrowers } = req.body;
+    const { id } = req.params; // Get loan ID from request params
+
+    // Find and update the loan
+    const loan = await Loan.findByIdAndUpdate(
+      id,
+      { loanName, guild, lender, borrowers },
+      { new: true, runValidators: true } // Return updated document & validate fields
+    );
+
+    // If no loan was found, return an error
+    if (!loan) {
+      return res.status(404).json({ error: "Loan not found" });
+    }
+
+    res.status(200).json(loan); // Return updated loan
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // delete a loan
 const deleteLoan = async (req, res) => {
   const { id } = req.params;
@@ -106,6 +129,7 @@ module.exports = {
   getLoan,
   createLoan,
   deleteLoan,
+  updateLoan,
   removeBorrower,
   getUsersLoans,
 };

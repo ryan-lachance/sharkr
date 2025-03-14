@@ -83,6 +83,58 @@ function Dashboard() {
     window.location.reload();
   }
 
+  function createLoan(loanName, guild) {
+    if (loanName != "".trim() && guild != null) {
+      fetch(`${API}/loans`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json", // Ensure the server knows it's JSON
+        },
+        body: JSON.stringify({
+          loanName: loanName, // Example data, replace with real input
+          guild: {
+            guildId: guild.id,
+            guildName: guild.name,
+          },
+          lender: {
+            lenderId: userSession.user.id,
+            lenderName: userSession.user.username,
+          },
+          borrowers: [],
+        }),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Failed to create loan");
+          return response.json();
+        })
+        .catch((error) => console.error("Error:", error));
+      window.location.reload();
+    }
+  }
+
+  function updateLoan(loan) {
+    fetch(`${API}/loans/${loan._id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json", // Ensure the server knows it's JSON
+      },
+      body: JSON.stringify({
+        loanName: loan.loanName, // Example data, replace with real input
+        guild: loan.guild,
+        lender: loan.lender,
+        borrowers: loan.borrowers,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to update loan");
+        return response.json();
+      })
+      .catch((error) => console.error("Error:", error));
+    window.location.reload();
+  }
+
   useEffect(() => {
     authUser();
     getGuilds();
@@ -100,6 +152,7 @@ function Dashboard() {
         guilds={guilds}
         loans={loans}
         deleteLoan={deleteLoan}
+        updateLoan={updateLoan}
         openPopUp={handleClickOpen}
       />
       <PopUp
@@ -107,6 +160,7 @@ function Dashboard() {
         onClose={handleClose}
         guilds={guilds}
         userSession={userSession}
+        createLoan={createLoan}
       />
     </Container>
   );

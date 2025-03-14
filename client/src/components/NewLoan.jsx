@@ -10,42 +10,11 @@ import {
   Autocomplete,
 } from "@mui/material";
 
-const NewLoan = ({ open, onClose, guilds, userSession }) => {
+const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
   const API = import.meta.env.VITE_API_PATH;
   const [loanName, setLoanName] = useState("");
   const [guild, setGuild] = useState(null);
   const [error, setError] = useState(false);
-
-  console.log("Guilds Data:", guilds);
-  function createLoan() {
-    if (loanName != "".trim() && guild != null) {
-      fetch(`${API}/loans`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json", // Ensure the server knows it's JSON
-        },
-        body: JSON.stringify({
-          loanName: loanName, // Example data, replace with real input
-          guild: {
-            guildId: guild.id,
-            guildName: guild.name,
-          },
-          lender: {
-            lenderId: userSession.user.id,
-            lenderName: userSession.user.username,
-          },
-          borrowers: [],
-        }),
-      })
-        .then((response) => {
-          if (!response.ok) throw new Error("Failed to create loan");
-          return response.json();
-        })
-        .catch((error) => console.error("Error:", error));
-      window.location.reload();
-    }
-  }
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -83,7 +52,7 @@ const NewLoan = ({ open, onClose, guilds, userSession }) => {
               setError(true);
             } else {
               setError(false);
-              createLoan(); // Call your function
+              createLoan(loanName, guild); // Call your function
             }
           }}
           color="primary"

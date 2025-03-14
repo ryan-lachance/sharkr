@@ -4,6 +4,7 @@ const {
   getLoans,
   createLoan,
   deleteLoan,
+  updateLoan,
   removeBorrower,
   getUsersLoans,
 } = require("../controllers/loanController");
@@ -24,6 +25,10 @@ router.post("/", createLoan);
 
 // Delete Loan
 router.delete("/:id", deleteLoan);
+
+// Update Loan
+
+router.patch("/:id", updateLoan);
 
 //Remove a borrower from a loan
 router.delete("/:loan_id/borrowers/:borrower_id", removeBorrower);
