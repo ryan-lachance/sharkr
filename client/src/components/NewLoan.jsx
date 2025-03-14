@@ -12,8 +12,8 @@ import {
 
 const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
   const API = import.meta.env.VITE_API_PATH;
-  const [loanName, setLoanName] = useState("");
-  const [guild, setGuild] = useState(null);
+  const [newLoanName, setNewLoanName] = useState("");
+  const [selectedGuild, setSelectedGuild] = useState(null);
   const [error, setError] = useState(false);
 
   return (
@@ -23,24 +23,24 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
         <p>This is the content of the popup!</p>
         <TextField
           label="Loan Name"
-          value={loanName}
-          onChange={(event) => setLoanName(event.target.value)}
-          error={error && loanName === ""}
-          helperText={error && loanName === "" ? "This field is required" : ""}
+          value={newLoanName}
+          onChange={(event) => setNewLoanName(event.target.value)}
+          error={error && newLoanName === ""}
+          helperText={error && newLoanName === "" ? "This field is required" : ""}
         />
         <Autocomplete
           disablePortal
           options={guilds}
           getOptionLabel={(option) => option?.name || "Unknown Guild"}
-          value={guild} // Make sure `guild` is an object, not a string
-          onChange={(event, newValue) => setGuild(newValue)}
+          value={selectedGuild} // Make sure `guild` is an object, not a string
+          onChange={(event, newValue) => setSelectedGuild(newValue)}
           sx={{ width: 300 }}
           renderInput={(params) => (
             <TextField
               {...params}
               label="Server"
-              error={error && !guild}
-              helperText={error && !guild ? "Please select a server" : ""}
+              error={error && !selectedGuild}
+              helperText={error && !selectedGuild ? "Please select a server" : ""}
             />
           )}
         />
@@ -48,11 +48,11 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
       <DialogActions>
         <Button
           onClick={() => {
-            if (loanName == "".trim() || !guild) {
+            if (newLoanName == "".trim() || !selectedGuild) {
               setError(true);
             } else {
               setError(false);
-              createLoan(loanName, guild); // Call your function
+              createLoan(newLoanName, selectedGuild); // Call your function
             }
           }}
           color="primary"
