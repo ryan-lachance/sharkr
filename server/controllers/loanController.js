@@ -51,7 +51,7 @@ const createLoan = async (req, res) => {
       lender,
       borrowers,
     });
-    // bot.remind(loan._id) // Needs to be tested
+
     res.status(200).json(loan);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -124,6 +124,17 @@ const removeBorrower = async (req, res) => {
   }
 };
 
+const remindLoan = async (req, res) => {
+  try {
+    const { id } = req.params;
+    bot.remind(id);
+    res.status(200);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getLoans,
   getLoan,
@@ -132,4 +143,5 @@ module.exports = {
   updateLoan,
   removeBorrower,
   getUsersLoans,
+  remindLoan,
 };

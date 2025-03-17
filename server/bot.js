@@ -16,7 +16,7 @@ const client = new Client({
 console.log("Bot is running");
 
 async function maintain() {
-  // await remindAll()
+  await remindAll();
 }
 
 async function remind(loanId) {
@@ -91,4 +91,4 @@ async function guildsWithin() {
 
 client.login(env.DISCORD_TOKEN);
 
-module.exports = { client, maintain, guildsWithin };
+module.exports = { client, maintain, guildsWithin, remind };

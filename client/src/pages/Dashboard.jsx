@@ -136,6 +136,17 @@ function Dashboard() {
     window.location.reload();
   }
 
+  function remindLoan(loan) {
+    fetch(`${API}/loans/remind/${loan._id}`, {
+      method: "PATCH",
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to remind loan");
+        return response.json();
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+
   useEffect(() => {
     authUser();
   }, []);
@@ -148,7 +159,6 @@ function Dashboard() {
   }, [userSession]);
 
   useEffect(() => {
-    console.log(guilds);
     if (guilds.length > 0) {
       setLoading(false);
     }
@@ -166,6 +176,7 @@ function Dashboard() {
         deleteLoan={deleteLoan}
         updateLoan={updateLoan}
         openPopUp={handleClickOpen}
+        remindLoan={remindLoan}
       />
       <PopUp
         open={open}

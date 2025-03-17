@@ -18,7 +18,15 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function SplitView({ guilds, loans, Loan, deleteLoan, updateLoan, openPopUp }) {
+function SplitView({
+  guilds,
+  loans,
+  Loan,
+  deleteLoan,
+  updateLoan,
+  openPopUp,
+  remindLoan,
+}) {
   const [selectedLoan, setSelectedLoan] = useState("");
   const [selectedGuild, setSelectedGuild] = useState("");
 
@@ -183,7 +191,11 @@ function SplitView({ guilds, loans, Loan, deleteLoan, updateLoan, openPopUp }) {
           >
             Delete
           </Button>
-          <Button variant="contained" sx={{ mt: "auto" }}>
+          <Button
+            variant="contained"
+            sx={{ mt: "auto" }}
+            onClick={() => remindLoan(selectedLoan)}
+          >
             Remind All
           </Button>
         </Box>
