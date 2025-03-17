@@ -14,18 +14,47 @@ import {
   FormControlLabel,
   FormLabel,
   TextField,
+  Autocomplete,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
 function SplitView({ guilds, loans, Loan, deleteLoan, updateLoan, openPopUp }) {
   const [selectedLoan, setSelectedLoan] = useState("");
+  const [selectedGuild, setSelectedGuild] = useState("");
 
   const handleLoanChange = (event) => {
     const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
     setSelectedLoan(loan);
+    let loanGuid = guilds.find(
+      (loanGuild) => loanGuild.id == loan.guild.guildId
+    );
+    setSelectedGuild(loanGuid);
   };
 
-  function addBorrower() {}
+  function addBorrower(user) {
+    let borrowerExists = false;
+
+    for (const borrower of selectedLoan.borrowers) {
+      if (borrower.borrowerId == user.id) {
+        borrowerExists = true;
+      }
+    }
+
+    if (user != null && !borrowerExists) {
+      setSelectedLoan((prevLoan) => ({
+        ...prevLoan, // Copy existing loan properties
+        borrowers: [
+          ...prevLoan.borrowers, // Copy existing borrowers
+          {
+            borrowerId: user.id,
+            borrowerName: user.username,
+            owed: 0,
+          },
+        ],
+      }));
+      console.log(selectedLoan);
+    }
+  }
 
   const removeBorrower = (id) => {
     setSelectedLoan((prevLoan) => ({
@@ -105,12 +134,31 @@ function SplitView({ guilds, loans, Loan, deleteLoan, updateLoan, openPopUp }) {
             onChange={(e) => renameLoan(e.target.value)}
           />
           <Typography>Server: {selectedLoan.guild.guildName}</Typography>
+          <Autocomplete
+            disablePortal
+            options={selectedGuild.members}
+            value={null}
+            getOptionLabel={(option) => option?.username || "Unknown User"}
+            onChange={(event, newValue) => {
+              addBorrower(newValue);
+            }}
+            sx={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Add Borrower" />
+            )}
+          />
           {selectedLoan.borrowers.map((borrower) => (
             <Box
               key={borrower.borrowerId}
               sx={{ display: "flex", alignItems: "center", gap: 1 }}
             >
               <Typography>{borrower.borrowerName}</Typography>
+              <TextField
+                label="Amount"
+                type="number"
+                defaultValue={borrower.owed}
+                onChange={(e) => setOwed(e.target.value, borrower.borrowerId)}
+              />
               <Button
                 size="small"
                 variant="contained"
@@ -119,12 +167,6 @@ function SplitView({ guilds, loans, Loan, deleteLoan, updateLoan, openPopUp }) {
               >
                 X
               </Button>
-              <TextField
-                label="Amount"
-                type="number"
-                defaultValue={borrower.owed}
-                onChange={(e) => setOwed(e.target.value, borrower.borrowerId)}
-              />
             </Box>
           ))}
           <Button

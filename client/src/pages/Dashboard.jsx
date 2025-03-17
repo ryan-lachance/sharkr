@@ -23,6 +23,7 @@ function Dashboard() {
   //need a guild members prop?
   const [loans, setLoans] = useState([]); //Get all loans of the current user.
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -137,14 +138,25 @@ function Dashboard() {
 
   useEffect(() => {
     authUser();
-    getGuilds();
   }, []);
 
   useEffect(() => {
     if (userSession.isAuthenticated) {
       getUserLoans();
+      getGuilds();
     }
   }, [userSession]);
+
+  useEffect(() => {
+    console.log(guilds);
+    if (guilds.length > 0) {
+      setLoading(false);
+    }
+  }, [guilds]);
+
+  if (loading) {
+    return <Typography>Loading...</Typography>; // Replace with a spinner if needed
+  }
 
   return (
     <Container>
