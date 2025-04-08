@@ -12,11 +12,13 @@ const {
 
 const router = express.Router();
 
-//Get all loans
+/*Get all loans
 router.get("/", getLoans);
+*/
 
-//Get a specific loan
+/*Get a specific loan
 router.get("/:id", getLoan);
+*/
 
 //Get all loans from specific user
 router.get("/users/:id", getUsersLoans);

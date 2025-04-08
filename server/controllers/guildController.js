@@ -15,6 +15,7 @@ const getGuilds = async(req,res) => {
     if (!req.user) {
         return res.status(401).json({ error: "Unauthorized" }); // Handle case where user is not authenticated
     }
+    
 
 
     let userGuilds = req.user.guilds || []

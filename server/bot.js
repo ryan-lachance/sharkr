@@ -25,10 +25,13 @@ async function remind(loanId) {
 
     for (const borrower of loan.borrowers) {
       const user = await client.users.fetch(borrower.borrowerId);
-      await user.send(
-        `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}.`
-      );
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
+
+      if (!user.bot) {
+        await user.send(
+          `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}.`
+        );
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
+      }
     }
   } catch (error) {
     console.error("Error fetching loan:", error);
@@ -43,10 +46,12 @@ async function remindAll() {
       try {
         for (const borrower of loan.borrowers) {
           const user = await client.users.fetch(borrower.borrowerId);
-          await user.send(
-            `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}.`
-          );
-          await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
+          if (!user.bot) {
+            await user.send(
+              `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}.`
+            );
+            await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
+          }
         }
       } catch (error) {
         console.error("Error fetching loans:", error);

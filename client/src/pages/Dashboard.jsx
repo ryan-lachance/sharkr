@@ -139,6 +139,7 @@ function Dashboard() {
   function remindLoan(loan) {
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
+      credentials: "include",
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to remind loan");
