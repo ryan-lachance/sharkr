@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Container, Box } from "@mui/material";
+import { Container, Box, ThemeProvider } from "@mui/material";
 import "./App.css";
+import theme from "./assets/theme";
+import CssBaseline from "@mui/material/CssBaseline";
 
 //Pages
 import Home from "./pages/home";
@@ -27,31 +29,37 @@ function App() {
   }, []);
 
   return (
-    <Container
-      className="App"
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <BrowserRouter>
-        <Box className="pages">
-          <Routes>
-            <Route path="/" element={<Initalize />} />
-            <Route path="/Home" element={<Home />} />
-            <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
-            <Route
-              path="/loans/:loan_id/:borrower_id"
-              element={<RemoveBorrowerPage />}
-            />
-          </Routes>
-        </Box>
-      </BrowserRouter>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container
+        className="App"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          minHeight: "100vh",
+          maxWidth: "100%", // remove or set maxWidth to 100%
+          padding: 0, // remove any padding if needed
+        }}
+      >
+        <BrowserRouter>
+          <Box className="pages">
+            <Routes>
+              <Route path="/" element={<Initalize />} />
+              <Route path="/Home" element={<Home />} />
+              <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
+              <Route
+                path="/loans/:loanId/:borrowerId"
+                element={<RemoveBorrowerPage />}
+              />
+            </Routes>
+          </Box>
+        </BrowserRouter>
+      </Container>
+    </ThemeProvider>
   );
 }
 

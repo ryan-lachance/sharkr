@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Box, Typography } from "@mui/material";
+import { Container, Box, Typography, Button } from "@mui/material";
 
 //component
 
@@ -33,9 +33,9 @@ function Home() {
     <Container>
       <Box>
         {isLoggedIn ? (
-          <button onClick={logout}>Logout</button>
+          <Button onClick={logout}>Logout</Button>
         ) : (
-          <button onClick={login}>Login</button>
+          <Button onClick={login}>Login</Button>
         )}
       </Box>
       <Typography>{isLoggedIn ? "Logged In" : "Not Logged In"}</Typography>

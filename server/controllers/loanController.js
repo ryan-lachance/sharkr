@@ -141,6 +141,7 @@ const deleteLoan = async (req, res) => {
 const removeBorrower = async (req, res) => {
   try {
     const { loanId, borrowerId } = req.params;
+
     const updatedLoan = await Loan.findByIdAndUpdate(
       loanId,
       { $pull: { borrowers: { borrowerId: borrowerId } } },

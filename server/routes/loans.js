@@ -7,7 +7,7 @@ const {
   updateLoan,
   removeBorrower,
   getUsersLoans,
-  remindLoan
+  remindLoan,
 } = require("../controllers/loanController");
 
 const router = express.Router();
@@ -34,8 +34,8 @@ router.delete("/:id", deleteLoan);
 router.patch("/:id", updateLoan);
 
 //Remove a borrower from a loan
-router.delete("/:loan_id/borrowers/:borrower_id", removeBorrower);
+router.delete("/:loanId/borrowers/:borrowerId", removeBorrower);
 
-router.patch("/remind/:id", remindLoan)
+router.patch("/remind/:id", remindLoan);
 
 module.exports = router;

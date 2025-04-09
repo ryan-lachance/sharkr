@@ -90,8 +90,8 @@ function SplitView({
   return (
     <Paper
       sx={{
-        width: 600,
-        height: 400,
+        width: "40vw",
+        height: "80vh",
         display: "flex",
         mx: "auto",
         mt: 5,
@@ -102,14 +102,14 @@ function SplitView({
       <Box
         sx={{
           width: "30%",
-          bgcolor: "grey.200",
+          bgcolor: "#0b2a41",
           p: 2,
           display: "flex",
           flexDirection: "column",
         }}
       >
+        <FormLabel>Loans</FormLabel>
         <FormControl sx={{ maxHeight: 200, overflow: "auto" }}>
-          <FormLabel>Loans</FormLabel>
           <RadioGroup
             value={selectedLoan?._id || ""}
             onChange={handleLoanChange}
@@ -135,69 +135,96 @@ function SplitView({
 
       {/* Right Section - Content */}
       {selectedLoan && (
-        <Box sx={{ width: "70%", p: 3 }} key={selectedLoan._id}>
-          <TextField
-            label="Loan Name"
-            defaultValue={selectedLoan.loanName}
-            onChange={(e) => renameLoan(e.target.value)}
-          />
-          <Typography>Server: {selectedLoan.guild.guildName}</Typography>
-          <Autocomplete
-            disablePortal
-            options={selectedGuild.members}
-            value={null}
-            getOptionLabel={(option) => option?.username || "Unknown User"}
-            onChange={(event, newValue) => {
-              addBorrower(newValue);
-            }}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField {...params} label="Add Borrower" />
-            )}
-          />
-          {selectedLoan.borrowers.map((borrower) => (
-            <Box
-              key={borrower.borrowerId}
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            >
-              <Typography>{borrower.borrowerName}</Typography>
-              <TextField
-                label="Amount"
-                type="number"
-                defaultValue={borrower.owed}
-                onChange={(e) => setOwed(e.target.value, borrower.borrowerId)}
-              />
+        <Box sx={{ width: "70%", height: "100%", p: 2 }} key={selectedLoan._id}>
+          <FormLabel>Loan Information</FormLabel>
+          <Box
+            sx={{ display: "flex", height: "100%", flexDirection: "column" }}
+          >
+            <Typography sx={{ paddingBottom: 1 }}>
+              Server: {selectedLoan.guild.guildName}
+            </Typography>
+            <TextField
+              label="Loan Name"
+              defaultValue={selectedLoan.loanName}
+              onChange={(e) => renameLoan(e.target.value)}
+              sx={{}}
+            />
+            <Autocomplete
+              disablePortal
+              options={selectedGuild.members}
+              value={null}
+              getOptionLabel={(option) => option?.username || "Unknown User"}
+              onChange={(event, newValue) => {
+                addBorrower(newValue);
+              }}
+              sx={{ paddingTop: 1, paddingBottom: 1 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Add Borrower" />
+              )}
+            />
+            <Box sx={{ overflow: "auto", flexGrow: 1 }}>
+              {selectedLoan.borrowers.map((borrower) => (
+                <Box
+                  key={borrower.borrowerId}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    padding: 0.5,
+                  }}
+                >
+                  <Typography sx={{ width: 150 }}>
+                    {borrower.borrowerName}
+                  </Typography>
+                  <TextField
+                    label="Amount"
+                    type="number"
+                    defaultValue={borrower.owed}
+                    onChange={(e) =>
+                      setOwed(e.target.value, borrower.borrowerId)
+                    }
+                  />
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="error"
+                    onClick={() => removeBorrower(borrower.borrowerId)}
+                  >
+                    X
+                  </Button>
+                </Box>
+              ))}
+            </Box>
+            <Box sx={{ paddingBottom: 2, paddingTop: 2 }}>
               <Button
-                size="small"
+                variant="contained"
+                sx={{ mt: "auto", width: "20%" }}
+                onClick={() => updateLoan(selectedLoan)}
+              >
+                Update
+              </Button>
+              <Button
                 variant="contained"
                 color="error"
-                onClick={() => removeBorrower(borrower.borrowerId)}
+                sx={{
+                  mt: "auto",
+                  marginRight: 0.5,
+                  marginLeft: 0.5,
+                  width: "20%",
+                }}
+                onClick={() => deleteLoan(selectedLoan._id)}
               >
-                X
+                Delete
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ mt: "auto", width: "20%" }}
+                onClick={() => remindLoan(selectedLoan)}
+              >
+                Remind All
               </Button>
             </Box>
-          ))}
-          <Button
-            variant="contained"
-            sx={{ mt: "auto" }}
-            onClick={() => updateLoan(selectedLoan)}
-          >
-            Update
-          </Button>
-          <Button
-            variant="contained"
-            sx={{ mt: "auto", bgcolor: "DarkRed" }}
-            onClick={() => deleteLoan(selectedLoan._id)}
-          >
-            Delete
-          </Button>
-          <Button
-            variant="contained"
-            sx={{ mt: "auto" }}
-            onClick={() => remindLoan(selectedLoan)}
-          >
-            Remind All
-          </Button>
+          </Box>
         </Box>
       )}
     </Paper>

@@ -28,7 +28,7 @@ async function remind(loanId) {
 
       if (!user.bot) {
         await user.send(
-          `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}.`
+          `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}. Please visit this url:`
         );
         await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
       }
@@ -48,7 +48,7 @@ async function remindAll() {
           const user = await client.users.fetch(borrower.borrowerId);
           if (!user.bot) {
             await user.send(
-              `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}.`
+              `This is a reminder you owe ${loan.lender.lenderName} ${borrower.owed} doubloons for ${loan.loanName}. Please visit this url:`
             );
             await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
           }

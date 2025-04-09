@@ -20,13 +20,16 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>New Loan</DialogTitle>
       <DialogContent>
-        <p>This is the content of the popup!</p>
+        <p>Create a new loan</p>
         <TextField
           label="Loan Name"
           value={newLoanName}
           onChange={(event) => setNewLoanName(event.target.value)}
           error={error && newLoanName === ""}
-          helperText={error && newLoanName === "" ? "This field is required" : ""}
+          helperText={
+            error && newLoanName === "" ? "This field is required" : ""
+          }
+          sx={{ width: 250, paddingBottom: 1 }}
         />
         <Autocomplete
           disablePortal
@@ -34,13 +37,15 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
           getOptionLabel={(option) => option?.name || "Unknown Guild"}
           value={selectedGuild} // Make sure `guild` is an object, not a string
           onChange={(event, newValue) => setSelectedGuild(newValue)}
-          sx={{ width: 300 }}
+          sx={{ width: 250 }}
           renderInput={(params) => (
             <TextField
               {...params}
               label="Server"
               error={error && !selectedGuild}
-              helperText={error && !selectedGuild ? "Please select a server" : ""}
+              helperText={
+                error && !selectedGuild ? "Please select a server" : ""
+              }
             />
           )}
         />
@@ -59,7 +64,7 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
         >
           Create Loan
         </Button>
-        <Button onClick={onClose} color="primary">
+        <Button onClick={onClose} color="error">
           Cancel
         </Button>
       </DialogActions>

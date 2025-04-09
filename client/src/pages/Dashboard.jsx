@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Button,
 } from "@mui/material";
 
 //component
@@ -169,8 +170,13 @@ function Dashboard() {
     return <Typography>Loading...</Typography>; // Replace with a spinner if needed
   }
 
+  function logout() {
+    window.location.href = `${API}/auth/logout`;
+  }
+
   return (
     <Container>
+      <Button onClick={logout}>Logout</Button>
       <SplitView
         guilds={guilds}
         loans={loans}
