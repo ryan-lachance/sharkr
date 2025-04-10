@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
 
-function NavBar() {
+function NavBar({ userSession, login, logout }) {
   return (
-    <header>
-      <div className="container">
-        <Link t0="/">
-          <p>Home</p>
-        </Link>
-      </div>
-    </header>
+    <AppBar elevation={1}>
+      <Toolbar>
+        <Typography variant="h6">SHARKR</Typography>
+        <Box sx={{ flexGrow: 1 }}></Box>
+        {userSession.isAuthenticated ? (
+          <Button onClick={logout}>Logout</Button>
+        ) : (
+          <Button onClick={login}>Login</Button>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }
 

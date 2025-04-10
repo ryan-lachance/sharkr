@@ -15,6 +15,8 @@ import {
   FormLabel,
   TextField,
   Autocomplete,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -33,10 +35,10 @@ function SplitView({
   const handleLoanChange = (event) => {
     const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
     setSelectedLoan(loan);
-    let loanGuid = guilds.find(
+    let loanGuild = guilds.find(
       (loanGuild) => loanGuild.id == loan.guild.guildId
     );
-    setSelectedGuild(loanGuid);
+    setSelectedGuild(loanGuild);
   };
 
   function addBorrower(user) {
@@ -88,146 +90,161 @@ function SplitView({
   }
 
   return (
-    <Paper
-      sx={{
-        width: "40vw",
-        height: "80vh",
-        display: "flex",
-        mx: "auto",
-        mt: 5,
-        overflow: "hidden",
-      }}
-    >
-      {/* Left Section - Loan Selector */}
-      <Box
+    <>
+      <Paper
         sx={{
-          width: "30%",
-          bgcolor: "#0b2a41",
-          p: 2,
+          width: "40vw",
+          height: "80vh",
           display: "flex",
-          flexDirection: "column",
+          mx: "auto",
+          mt: 5,
+          overflow: "hidden",
         }}
+        elevation={2}
       >
-        <FormLabel>Loans</FormLabel>
-        <FormControl sx={{ maxHeight: 200, overflow: "auto" }}>
-          <RadioGroup
-            value={selectedLoan?._id || ""}
-            onChange={handleLoanChange}
-          >
-            {loans.map((loan) => (
-              <FormControlLabel
-                key={loan._id}
-                value={loan._id}
-                control={<Radio />}
-                label={loan.loanName}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-        <Button
-          variant="contained"
-          sx={{ mt: "auto" }}
-          onClick={() => openPopUp()}
+        {/* Left Section - Loan Selector */}
+        <Paper
+          sx={{
+            width: "30%",
+            p: 2,
+            display: "flex",
+            flexDirection: "column",
+          }}
+          elevation={1}
         >
-          New Loan
-        </Button>
-      </Box>
-
-      {/* Right Section - Content */}
-      {selectedLoan && (
-        <Box sx={{ width: "70%", height: "100%", p: 2 }} key={selectedLoan._id}>
-          <FormLabel>Loan Information</FormLabel>
-          <Box
-            sx={{ display: "flex", height: "100%", flexDirection: "column" }}
+          <FormLabel>Loans</FormLabel>
+          <FormControl sx={{ maxHeight: 200, overflow: "auto" }}>
+            <RadioGroup
+              value={selectedLoan?._id || ""}
+              onChange={handleLoanChange}
+            >
+              {loans.map((loan) => (
+                <FormControlLabel
+                  key={loan._id}
+                  value={loan._id}
+                  control={<Radio />}
+                  label={loan.loanName}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+          <Button
+            variant="contained"
+            sx={{ mt: "auto" }}
+            onClick={() => openPopUp()}
           >
-            <Typography sx={{ paddingBottom: 1 }}>
-              Server: {selectedLoan.guild.guildName}
-            </Typography>
-            <TextField
-              label="Loan Name"
-              defaultValue={selectedLoan.loanName}
-              onChange={(e) => renameLoan(e.target.value)}
-              sx={{}}
-            />
-            <Autocomplete
-              disablePortal
-              options={selectedGuild.members}
-              value={null}
-              getOptionLabel={(option) => option?.username || "Unknown User"}
-              onChange={(event, newValue) => {
-                addBorrower(newValue);
-              }}
-              sx={{ paddingTop: 1, paddingBottom: 1 }}
-              renderInput={(params) => (
-                <TextField {...params} label="Add Borrower" />
-              )}
-            />
-            <Box sx={{ overflow: "auto", flexGrow: 1 }}>
-              {selectedLoan.borrowers.map((borrower) => (
-                <Box
-                  key={borrower.borrowerId}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    padding: 0.5,
+            New Loan
+          </Button>
+        </Paper>
+
+        {/* Right Section - Content */}
+        {selectedLoan && (
+          <Paper
+            elevation={2}
+            sx={{ width: "70%", height: "100%", p: 2 }}
+            key={selectedLoan._id}
+          >
+            <FormLabel>Loan Information</FormLabel>
+            <Box
+              sx={{ display: "flex", height: "100%", flexDirection: "column" }}
+            >
+              <Typography sx={{ paddingBottom: 1 }}>
+                Server: {selectedLoan.guild.guildName}
+              </Typography>
+              <TextField
+                label="Loan Name"
+                defaultValue={selectedLoan.loanName}
+                onChange={(e) => renameLoan(e.target.value)}
+                sx={{}}
+              />
+              <Autocomplete
+                disablePortal
+                options={selectedGuild.members}
+                value={null}
+                getOptionLabel={(option) =>
+                  option?.displayname || option?.username || "Unknown User"
+                }
+                onChange={(event, newValue) => {
+                  addBorrower(newValue);
+                }}
+                sx={{ paddingTop: 1, paddingBottom: 1 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Add Borrower" />
+                )}
+              />
+              <Box sx={{ overflow: "auto", flexGrow: 1 }}>
+                {selectedLoan.borrowers.map((borrower) => (
+                  <Box
+                    key={borrower.borrowerId}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      padding: 0.5,
+                    }}
+                  >
+                    <Typography sx={{ width: 150 }}>
+                      {borrower.borrowerName}
+                    </Typography>
+                    <TextField
+                      label="Amount"
+                      type="number"
+                      defaultValue={borrower.owed}
+                      onChange={(e) =>
+                        setOwed(e.target.value, borrower.borrowerId)
+                      }
+                    />
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="error"
+                      onClick={() => removeBorrower(borrower.borrowerId)}
+                    >
+                      X
+                    </Button>
+                  </Box>
+                ))}
+              </Box>
+              <Box sx={{ paddingBottom: 2, paddingTop: 2 }}>
+                <Button
+                  variant="contained"
+                  sx={{ mt: "auto", width: "20%" }}
+                  onClick={() => {
+                    updateLoan(selectedLoan);
+                    window.location.reload();
                   }}
                 >
-                  <Typography sx={{ width: 150 }}>
-                    {borrower.borrowerName}
-                  </Typography>
-                  <TextField
-                    label="Amount"
-                    type="number"
-                    defaultValue={borrower.owed}
-                    onChange={(e) =>
-                      setOwed(e.target.value, borrower.borrowerId)
-                    }
-                  />
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="error"
-                    onClick={() => removeBorrower(borrower.borrowerId)}
-                  >
-                    X
-                  </Button>
-                </Box>
-              ))}
+                  Update
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    mt: "auto",
+                    width: "20%",
+                    marginLeft: 0.5,
+                    marginRight: 0.5,
+                  }}
+                  onClick={() => remindLoan(selectedLoan)}
+                >
+                  Remind All
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  sx={{
+                    mt: "auto",
+                    width: "20%",
+                  }}
+                  onClick={() => deleteLoan(selectedLoan._id)}
+                >
+                  Delete
+                </Button>
+              </Box>
             </Box>
-            <Box sx={{ paddingBottom: 2, paddingTop: 2 }}>
-              <Button
-                variant="contained"
-                sx={{ mt: "auto", width: "20%" }}
-                onClick={() => updateLoan(selectedLoan)}
-              >
-                Update
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                sx={{
-                  mt: "auto",
-                  marginRight: 0.5,
-                  marginLeft: 0.5,
-                  width: "20%",
-                }}
-                onClick={() => deleteLoan(selectedLoan._id)}
-              >
-                Delete
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ mt: "auto", width: "20%" }}
-                onClick={() => remindLoan(selectedLoan)}
-              >
-                Remind All
-              </Button>
-            </Box>
-          </Box>
-        </Box>
-      )}
-    </Paper>
+          </Paper>
+        )}
+      </Paper>
+    </>
   );
 }
 

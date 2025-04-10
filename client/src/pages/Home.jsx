@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Container, Box, Typography, Button } from "@mui/material";
+import { Container, Box, Typography, Button, Paper } from "@mui/material";
 
 //component
+import NavBar from "../components/NavBar";
 
 function Home() {
   const API = import.meta.env.VITE_API_PATH;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   let userSession = { isAuthenticated: false };
 
   useEffect(() => {
@@ -16,7 +16,6 @@ function Home() {
       .then((response) => response.json())
       .then((data) => {
         userSession = data;
-        setIsLoggedIn(userSession.isAuthenticated);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
@@ -29,17 +28,59 @@ function Home() {
     window.location.href = `${API}/auth/logout`;
   }
 
+  function inviteBot() {
+    window.location.href =
+      "https://discord.com/oauth2/authorize?client_id=1329857247873863792&permissions=0&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A2000%2Fapi%2Fauth%2Fredirect&integration_type=0&scope=bot+guilds";
+  }
+
   return (
-    <Container>
-      <Box>
-        {isLoggedIn ? (
-          <Button onClick={logout}>Logout</Button>
-        ) : (
-          <Button onClick={login}>Login</Button>
-        )}
+    <Box sx={{ width: "100%", height: "100%" }}>
+      <NavBar userSession={userSession} logout={logout} login={login} />
+      <Typography variant="h4" sx={{ paddingBottom: 2 }}>
+        Don't shake your friends down for money...
+      </Typography>
+      <img src="../src/assets/shark.png" />
+      <Typography variant="h5">Let Sharkr do it for you!</Typography>
+
+      <Box // thisone
+        sx={{
+          width: "100%",
+          height: "200px",
+        }}
+      >
+        <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 2,
+              marginBottom: 2,
+            }}
+          >
+            <Button
+              sx={{
+                marginRight: 0.5,
+              }}
+              onClick={inviteBot}
+            >
+              Invite Sharkr
+            </Button>
+            <Button sx={{ marginLeft: 0.5 }} onClick={login}>
+              Login to the Dashboard
+            </Button>
+          </Box>
+
+          <Typography>
+            Sharkr is a Discord Bot to help you split costs between friends,
+            like booking an escape room or hotel.
+          </Typography>
+          <Typography>
+            Invite Sharkr to your server, create a loan with our slick web
+            interface, and let Sharkr remind your friends to pay you back.
+          </Typography>
+        </Box>
       </Box>
-      <Typography>{isLoggedIn ? "Logged In" : "Not Logged In"}</Typography>
-    </Container>
+    </Box>
   );
 }
 

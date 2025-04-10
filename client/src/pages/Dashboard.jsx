@@ -12,6 +12,7 @@ import {
 
 //component
 import SplitView from "../components/SplitView";
+import NavBar from "../components/NavBar";
 import { default as PopUp } from "../components/NewLoan";
 
 function Dashboard() {
@@ -134,10 +135,10 @@ function Dashboard() {
         return response.json();
       })
       .catch((error) => console.error("Error:", error));
-    window.location.reload();
   }
 
   function remindLoan(loan) {
+    updateLoan(loan);
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
@@ -147,6 +148,7 @@ function Dashboard() {
         return response.json();
       })
       .catch((error) => console.error("Error:", error));
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -176,7 +178,8 @@ function Dashboard() {
 
   return (
     <Container>
-      <Button onClick={logout}>Logout</Button>
+      <NavBar userSession={userSession} logout={logout} login={null} />
+
       <SplitView
         guilds={guilds}
         loans={loans}

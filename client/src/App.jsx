@@ -31,7 +31,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container
+      <Box
         className="App"
         sx={{
           display: "flex",
@@ -58,7 +58,7 @@ function App() {
             </Routes>
           </Box>
         </BrowserRouter>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 }
