@@ -58,6 +58,7 @@ function SplitView({
           {
             borrowerId: user.id,
             borrowerName: user.username,
+            borrowerDisplayName: user.displayname,
             owed: 0,
           },
         ],
@@ -184,7 +185,7 @@ function SplitView({
                     }}
                   >
                     <Typography sx={{ width: 150 }}>
-                      {borrower.borrowerName}
+                      {borrower.borrowerDisplayName || borrower.borrowerName}
                     </Typography>
                     <TextField
                       label="Amount"

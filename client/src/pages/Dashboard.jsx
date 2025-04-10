@@ -103,6 +103,7 @@ function Dashboard() {
           lender: {
             lenderId: userSession.user.id,
             lenderName: userSession.user.username,
+            lenderDisplayName: userSession.user.displayname,
           },
           borrowers: [],
         }),
@@ -160,6 +161,7 @@ function Dashboard() {
       getUserLoans();
       getGuilds();
     }
+    console.log(userSession);
   }, [userSession]);
 
   useEffect(() => {

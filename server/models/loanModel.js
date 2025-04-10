@@ -13,11 +13,13 @@ const loanSchema = new Schema(
     lender: {
       lenderId: { type: String, required: true },
       lenderName: { type: String, required: true },
+      lenderDisplayName: { type: String, required: false },
     },
     borrowers: [
       {
         borrowerId: { type: String, required: true },
         borrowerName: { type: String, required: true },
+        borrowerDisplayName: { type: String, required: false },
         owed: { type: Number, required: true },
       },
     ],

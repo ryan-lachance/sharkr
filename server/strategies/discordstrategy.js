@@ -4,7 +4,12 @@ const DiscordStrategy = require("passport-discord").Strategy;
 const passport = require("passport");
 
 passport.serializeUser((user, done) => {
-  done(null, { id: user.id, username: user.username, guilds: user.guilds }); // Store the full profile in session
+  done(null, {
+    id: user.id,
+    username: user.username,
+    displayname: user.global_name,
+    guilds: user.guilds,
+  }); // Store the full profile in session
 });
 
 passport.deserializeUser((obj, done) => {

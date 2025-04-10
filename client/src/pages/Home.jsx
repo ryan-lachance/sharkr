@@ -57,16 +57,16 @@ function Home() {
               marginBottom: 2,
             }}
           >
+            <Button sx={{ marginRight: 0.5 }} onClick={login}>
+              Login to the Dashboard
+            </Button>
             <Button
               sx={{
-                marginRight: 0.5,
+                marginLeft: 0.5,
               }}
               onClick={inviteBot}
             >
               Invite Sharkr
-            </Button>
-            <Button sx={{ marginLeft: 0.5 }} onClick={login}>
-              Login to the Dashboard
             </Button>
           </Box>
 
