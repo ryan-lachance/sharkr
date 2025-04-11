@@ -13,6 +13,7 @@ const theme = createTheme({
     error: {
       main: "#821d20",
     },
+    textField: {},
     background: {
       default: "#0b2a41", // light gray, or any color you want
       paper: "#0b2a41",
@@ -29,6 +30,11 @@ const theme = createTheme({
       defaultProps: {
         variant: "contained",
         color: "primary",
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        color: "textField",
       },
     },
   },

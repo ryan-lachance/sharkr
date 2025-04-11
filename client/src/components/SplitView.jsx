@@ -63,7 +63,6 @@ function SplitView({
           },
         ],
       }));
-      console.log(selectedLoan);
     }
   }
 
@@ -160,6 +159,7 @@ function SplitView({
               />
               <Autocomplete
                 disablePortal
+                blurOnSelect={true}
                 options={selectedGuild.members}
                 value={null}
                 getOptionLabel={(option) =>
