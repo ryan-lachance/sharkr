@@ -148,64 +148,71 @@ function SplitView({
             <Box
               sx={{ display: "flex", height: "100%", flexDirection: "column" }}
             >
-              <Typography sx={{ paddingBottom: 1 }}>
-                Server: {selectedLoan.guild.guildName}
-              </Typography>
-              <TextField
-                label="Loan Name"
-                defaultValue={selectedLoan.loanName}
-                onChange={(e) => renameLoan(e.target.value)}
-                sx={{}}
-              />
-              <Autocomplete
-                disablePortal
-                blurOnSelect={true}
-                options={selectedGuild.members}
-                value={null}
-                getOptionLabel={(option) =>
-                  option?.displayname || option?.username || "Unknown User"
-                }
-                onChange={(event, newValue) => {
-                  addBorrower(newValue);
-                }}
-                sx={{ paddingTop: 1, paddingBottom: 1 }}
-                renderInput={(params) => (
-                  <TextField {...params} label="Add Borrower" />
-                )}
-              />
-              <Box sx={{ overflow: "auto", flexGrow: 1 }}>
-                {selectedLoan.borrowers.map((borrower) => (
-                  <Box
-                    key={borrower.borrowerId}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 1,
-                      padding: 0.5,
+              {selectedGuild?.members ? ( //this
+                <Box>
+                  <Typography sx={{ paddingBottom: 1 }}>
+                    Server: {selectedLoan.guild.guildName}
+                  </Typography>
+                  <TextField
+                    label="Loan Name"
+                    defaultValue={selectedLoan.loanName}
+                    onChange={(e) => renameLoan(e.target.value)}
+                    sx={{}}
+                  />
+                  <Autocomplete
+                    disablePortal
+                    blurOnSelect={true}
+                    options={selectedGuild.members}
+                    value={null}
+                    getOptionLabel={(option) =>
+                      option?.displayname || option?.username || "Unknown User"
+                    }
+                    onChange={(event, newValue) => {
+                      addBorrower(newValue);
                     }}
-                  >
-                    <Typography sx={{ width: 150 }}>
-                      {borrower.borrowerDisplayName || borrower.borrowerName}
-                    </Typography>
-                    <TextField
-                      label="Amount"
-                      type="number"
-                      defaultValue={borrower.owed}
-                      onChange={(e) =>
-                        setOwed(e.target.value, borrower.borrowerId)
-                      }
-                    />
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="error"
-                      onClick={() => removeBorrower(borrower.borrowerId)}
-                    >
-                      X
-                    </Button>
+                    sx={{ paddingTop: 1, paddingBottom: 1 }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Add Borrower" />
+                    )}
+                  />
+                  <Box sx={{ overflow: "auto", flexGrow: 1 }}>
+                    {selectedLoan.borrowers.map((borrower) => (
+                      <Box
+                        key={borrower.borrowerId}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 1,
+                          padding: 0.5,
+                        }}
+                      >
+                        <Typography sx={{ width: 150 }}>
+                          {borrower.borrowerDisplayName ||
+                            borrower.borrowerName}
+                        </Typography>
+                        <TextField
+                          label="Amount"
+                          type="number"
+                          defaultValue={borrower.owed}
+                          onChange={(e) =>
+                            setOwed(e.target.value, borrower.borrowerId)
+                          }
+                        />
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="error"
+                          onClick={() => removeBorrower(borrower.borrowerId)}
+                        >
+                          X
+                        </Button>
+                      </Box>
+                    ))}
                   </Box>
-                ))}
-              </Box>
+                </Box>
+              ) : (
+                <Typography>Sharkr can no logner access the server associated with this loan.</Typography>
+              )}
               <Box sx={{ paddingBottom: 2, paddingTop: 2 }}>
                 <Button
                   variant="contained"
