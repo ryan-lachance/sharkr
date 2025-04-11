@@ -66,7 +66,7 @@ function Home() {
               }}
               onClick={inviteBot}
             >
-              Invite Sharkr
+              Invite Sharkr to your Server
             </Button>
           </Box>
 
