@@ -37,10 +37,12 @@ function Home() {
     <Box sx={{ width: "100%", height: "100%" }}>
       <NavBar userSession={userSession} logout={logout} login={login} />
       <Typography variant="h4" sx={{ paddingBottom: 2 }}>
-        Don't shake your friends down for money...
+        Don't shake down your friends for money...
       </Typography>
       <img src="../src/assets/shark.png" />
-      <Typography variant="h5">Let Sharkr do it for you!</Typography>
+      <Typography variant="h5" marginBottom={1}>
+        ...Let Sharkr do it for you!
+      </Typography>
 
       <Box // thisone
         sx={{
@@ -49,6 +51,14 @@ function Home() {
         }}
       >
         <Box>
+          <Typography>
+            Sharkr is a Discord Bot to help you split costs between friends,
+            like booking an escape room or hotel.
+          </Typography>
+          <Typography>
+            Invite Sharkr to your server, create a loan with our slick web
+            interface, and let Sharkr remind your friends to pay you back.
+          </Typography>
           <Box
             sx={{
               display: "flex",
@@ -69,15 +79,6 @@ function Home() {
               Invite Sharkr to your Server
             </Button>
           </Box>
-
-          <Typography>
-            Sharkr is a Discord Bot to help you split costs between friends,
-            like booking an escape room or hotel.
-          </Typography>
-          <Typography>
-            Invite Sharkr to your server, create a loan with our slick web
-            interface, and let Sharkr remind your friends to pay you back.
-          </Typography>
         </Box>
       </Box>
     </Box>
