@@ -39,7 +39,7 @@ function Home() {
       <Typography variant="h4" sx={{ paddingBottom: 2 }}>
         Don't shake down your friends for money...
       </Typography>
-      <img src="../src/assets/shark.png" />
+      <img src="shark.png" />
       <Typography variant="h5" marginBottom={1}>
         ...Let Sharkr do it for you!
       </Typography>
