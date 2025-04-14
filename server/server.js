@@ -12,6 +12,7 @@ const cron = require("node-cron");
 const session = require("express-session");
 const passport = require("passport");
 const DiscordStrategy = require("./strategies/discordstrategy");
+const MongoStore = require("connect-mongo");
 
 //express app
 const app = express();
@@ -33,6 +34,10 @@ app.use(
       maxAge: 60000 * 60 * 24,
     },
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: env.MONGO_URI,
+      collectionName: "sessions",
+    }),
   })
 );
 
