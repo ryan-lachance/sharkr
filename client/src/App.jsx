@@ -38,7 +38,7 @@ function App() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100vh",
-          maxWidth: "100%", // remove or set maxWidth to 100%
+          maxWidth: "100%", // remove or set maxWidth to  100%
           padding: 0, // remove any padding if needed
         }}
       >
