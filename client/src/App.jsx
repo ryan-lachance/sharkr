@@ -6,7 +6,7 @@ import theme from "./assets/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 
 //Pages
-import Home from "./pages/home";
+import Home from "./pages/Home";
 import RemoveBorrowerPage from "./pages/RemoveBorrower";
 import Initalize from "./pages/Initalize";
 import Dashboard from "./pages/Dashboard";
