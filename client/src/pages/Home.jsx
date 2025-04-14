@@ -29,8 +29,7 @@ function Home() {
   }
 
   function inviteBot() {
-    window.location.href =
-      "https://discord.com/oauth2/authorize?client_id=1329857247873863792&permissions=0&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A2000%2Fapi%2Fauth%2Fredirect&integration_type=0&scope=bot+guilds";
+    window.location.href = import.meta.env.VITE_BOT_ADD_PATH;
   }
 
   return (

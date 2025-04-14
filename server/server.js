@@ -28,7 +28,7 @@ app.use(
 app.use(
   session({
     //Add session store
-    secret: "wef233g3gd",
+    secret: env.CORS_SECRET,
     resave: false,
     cookie: {
       maxAge: 60000 * 60 * 24,
