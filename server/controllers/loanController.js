@@ -175,7 +175,7 @@ const remindLoan = async (req, res) => {
     }
 
     bot.remind(id);
-    res.status(200);
+    res.status(200).json({ message: "status OK" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
