@@ -81,9 +81,11 @@ function Dashboard() {
         }
         return response.json();
       })
-      .then((data) => console.log("Deleted successfully:", data))
+      .then((data) => {
+        console.log("Deleted successfully:", data);
+        window.location.reload();
+      })
       .catch((error) => console.error("Error:", error));
-    window.location.reload();
   }
 
   function createLoan(loanName, guild) {
@@ -112,8 +114,10 @@ function Dashboard() {
           if (!response.ok) throw new Error("Failed to create loan");
           return response.json();
         })
+        .then((data) => {
+          window.location.reload();
+        })
         .catch((error) => console.error("Error:", error));
-      window.location.reload();
     }
   }
 
@@ -148,8 +152,10 @@ function Dashboard() {
         if (!response.ok) throw new Error("Failed to remind loan");
         return response.json();
       })
+      .then((data) => {
+        window.location.reload();
+      })
       .catch((error) => console.error("Error:", error));
-    window.location.reload();
   }
 
   useEffect(() => {
