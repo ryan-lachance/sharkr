@@ -17,7 +17,7 @@ function Initalize() {
       .then((data) => {
         if (data.isAuthenticated) {
           navigate("/dashboard");
-        } else [navigate("/home")];
+        } else navigate("/home");
       })
       .catch((error) => console.error("Error:", error));
   }, []);
