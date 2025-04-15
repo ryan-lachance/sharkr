@@ -142,30 +142,21 @@ function Dashboard() {
       .catch((error) => console.error("Error:", error));
   }
 
-  async function remindLoan(loan) {
-    fetch(`${API}/loans/${loan._id}`, {
-      method: "PATCH",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json", // Ensure the server knows it's JSON
-      },
-      body: JSON.stringify({
-        loanName: loan.loanName, // Example data, replace with real input
-        guild: loan.guild,
-        lender: loan.lender,
-        borrowers: loan.borrowers,
-      }),
-    })
-      .then((response) => {
-        if (!response.ok) throw new Error("Failed to update loan");
-      })
-      .catch((error) => console.error("Error:", error));
-
+  function remindLoan(loan) {
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
-    }).catch((error) => console.error("Error:", error));
-    window.location.reload();
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to remind loan");
+        }
+        // Reload the page after the request is successful
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   useEffect(() => {
