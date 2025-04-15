@@ -16,10 +16,11 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+  const API = import.meta.env.VITE_API_PATH;
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:2000/api/auth/status", {
+    fetch(`${API}/auth/status`, {
       method: "GET",
       credentials: "include",
     })
