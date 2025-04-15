@@ -24,7 +24,7 @@ router.get("/:id", getLoan);
 router.get("/users/:id", getUsersLoans);
 
 // Add loan
-router.post("/", createLoan);
+router.post("/", console.log("testing"));
 
 // Delete Loan
 router.delete("/:id", deleteLoan);
