@@ -148,7 +148,6 @@ function Dashboard() {
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) throw new Error("Failed to remind loan");
         window.location.reload();
       })
       .catch((error) => console.error("Error:", error));
