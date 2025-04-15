@@ -122,7 +122,7 @@ function Dashboard() {
   }
 
   function updateLoan(loan) {
-    fetch(`${API}/loans/${loan._id}`, {
+    return fetch(`${API}/loans/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -137,7 +137,6 @@ function Dashboard() {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to update loan");
-        return response.json();
       })
       .catch((error) => console.error("Error:", error));
   }
@@ -150,9 +149,6 @@ function Dashboard() {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to remind loan");
-        return response.json();
-      })
-      .then((data) => {
         window.location.reload();
       })
       .catch((error) => console.error("Error:", error));
