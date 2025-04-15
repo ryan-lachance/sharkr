@@ -12,6 +12,7 @@ function Home() {
     fetch(`${API}/auth/status`, {
       method: "GET",
       credentials: "include",
+  
     })
       .then((response) => response.json())
       .then((data) => {
