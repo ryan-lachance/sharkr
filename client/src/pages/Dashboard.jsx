@@ -121,8 +121,29 @@ function Dashboard() {
     }
   }
 
-  async function updateLoan(loan) {
-    return fetch(`${API}/loans/${loan._id}`, {
+  function updateLoan(loan) {
+    fetch(`${API}/loans/${loan._id}`, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json", // Ensure the server knows it's JSON
+      },
+      body: JSON.stringify({
+        loanName: loan.loanName, // Example data, replace with real input
+        guild: loan.guild,
+        lender: loan.lender,
+        borrowers: loan.borrowers,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Failed to update loan");
+        window.location.reload();
+      })
+      .catch((error) => console.error("Error:", error));
+  }
+
+  async function remindLoan(loan) {
+    fetch(`${API}/loans/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -139,10 +160,6 @@ function Dashboard() {
         if (!response.ok) throw new Error("Failed to update loan");
       })
       .catch((error) => console.error("Error:", error));
-  }
-
-  async function remindLoan(loan) {
-    await updateLoan(loan);
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
       credentials: "include",

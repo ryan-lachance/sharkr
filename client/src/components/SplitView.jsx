@@ -221,8 +221,7 @@ function SplitView({
                   variant="contained"
                   sx={{ mt: "auto", width: "20%" }}
                   onClick={async () => {
-                    await updateLoan(selectedLoan);
-                    window.location.reload();
+                    updateLoan(selectedLoan);
                   }}
                 >
                   Update
