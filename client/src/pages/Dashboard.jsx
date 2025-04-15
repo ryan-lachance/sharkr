@@ -141,8 +141,8 @@ function Dashboard() {
       .catch((error) => console.error("Error:", error));
   }
 
-  function remindLoan(loan) {
-    updateLoan(loan);
+  async function remindLoan(loan) {
+    await updateLoan(loan);
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
