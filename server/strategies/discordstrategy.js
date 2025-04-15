@@ -4,7 +4,6 @@ const DiscordStrategy = require("passport-discord").Strategy;
 const passport = require("passport");
 
 passport.serializeUser((user, done) => {
-  console.log("serializeUser", user);
   done(null, {
     id: user.id,
     username: user.username,
@@ -14,7 +13,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((obj, done) => {
-  console.log("deserializeUser", obj);
   done(null, obj); // Retrieve the full profile
 });
 

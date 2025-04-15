@@ -12,7 +12,6 @@ router.get(
     failureRedirect: env.CLIENT_URL,
   }),
   (req, res) => {
-    console.log("✅ Logged in user:", req.user);
     res.redirect(env.CLIENT_URL);
   }
 );

@@ -211,15 +211,17 @@ function SplitView({
                   </Box>
                 </Box>
               ) : (
-                <Typography>Sharkr can no logner access the server associated with this loan.</Typography>
+                <Typography>
+                  Sharkr can no logner access the server associated with this
+                  loan.
+                </Typography>
               )}
               <Box sx={{ paddingBottom: 2, paddingTop: 2 }}>
                 <Button
                   variant="contained"
                   sx={{ mt: "auto", width: "20%" }}
-                  onClick={() => {
+                  onClick={async () => {
                     updateLoan(selectedLoan);
-                    window.location.reload();
                   }}
                 >
                   Update

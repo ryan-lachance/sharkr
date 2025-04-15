@@ -81,9 +81,11 @@ function Dashboard() {
         }
         return response.json();
       })
-      .then((data) => console.log("Deleted successfully:", data))
+      .then((data) => {
+        console.log("Deleted successfully:", data);
+        window.location.reload();
+      })
       .catch((error) => console.error("Error:", error));
-    window.location.reload();
   }
 
   function createLoan(loanName, guild) {
@@ -112,8 +114,10 @@ function Dashboard() {
           if (!response.ok) throw new Error("Failed to create loan");
           return response.json();
         })
+        .then((data) => {
+          window.location.reload();
+        })
         .catch((error) => console.error("Error:", error));
-      window.location.reload();
     }
   }
 
@@ -133,23 +137,26 @@ function Dashboard() {
     })
       .then((response) => {
         if (!response.ok) throw new Error("Failed to update loan");
-        return response.json();
+        window.location.reload();
       })
       .catch((error) => console.error("Error:", error));
   }
 
   function remindLoan(loan) {
-    updateLoan(loan);
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
     })
       .then((response) => {
-        if (!response.ok) throw new Error("Failed to remind loan");
-        return response.json();
+        if (!response.ok) {
+          throw new Error("Failed to remind loan");
+        }
+        // Reload the page after the request is successful
+        window.location.reload();
       })
-      .catch((error) => console.error("Error:", error));
-    window.location.reload();
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   useEffect(() => {

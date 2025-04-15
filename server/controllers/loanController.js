@@ -64,7 +64,7 @@ const createLoan = async (req, res) => {
   // add doc to db
   try {
     const { loanName, guild, lender, borrowers } = req.body;
-
+    console.log("creating loan");
     const authStatus = getAuthStatus(req, res, lender.lenderId);
 
     if (authStatus) {
@@ -175,7 +175,7 @@ const remindLoan = async (req, res) => {
     }
 
     bot.remind(id);
-    res.status(200);
+    res.status(200).json({ message: "status OK" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });

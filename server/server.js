@@ -16,6 +16,7 @@ const MongoStore = require("connect-mongo");
 
 //express app
 const app = express();
+app.set("trust proxy", 1);
 
 //Middleware
 app.use(express.json());
@@ -32,6 +33,8 @@ app.use(
     resave: false,
     cookie: {
       maxAge: 60000 * 60 * 24,
+      sameSite: "none",
+      secure: true,
     },
     saveUninitialized: false,
     store: MongoStore.create({
