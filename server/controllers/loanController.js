@@ -69,6 +69,7 @@ const createLoan = async (req, res) => {
 
     if (req.user) {
       console.log(req.user);
+      console.log("user");
     } else {
       console.log("no user");
     }
