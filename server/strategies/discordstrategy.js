@@ -14,7 +14,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((obj, done) => {
-  console.log("deserializeUser", id);
+  console.log("deserializeUser", obj);
   done(null, obj); // Retrieve the full profile
 });
 
