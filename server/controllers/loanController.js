@@ -67,7 +67,7 @@ const createLoan = async (req, res) => {
 
     const authStatus = getAuthStatus(req, res, lender.lenderId);
 
-    console.log(authStatus);
+    console.log(req.user);
     if (authStatus) {
       return authStatus;
     }

@@ -12,13 +12,11 @@ router.get(
     failureRedirect: env.CLIENT_URL,
   }),
   (req, res) => {
-    console.log("✅ Logged in user:", req.user);
     res.redirect(env.CLIENT_URL);
   }
 );
 
 router.get("/status", (req, res) => {
-  console.log("Auth status of request is " + req.isAuthenticated());
   if (req.isAuthenticated()) {
     res.json({ isAuthenticated: true, user: req.user });
   } else {
