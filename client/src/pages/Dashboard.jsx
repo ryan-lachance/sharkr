@@ -121,7 +121,7 @@ function Dashboard() {
     }
   }
 
-  function updateLoan(loan) {
+  async function updateLoan(loan) {
     return fetch(`${API}/loans/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
