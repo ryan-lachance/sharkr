@@ -160,14 +160,12 @@ function Dashboard() {
         if (!response.ok) throw new Error("Failed to update loan");
       })
       .catch((error) => console.error("Error:", error));
+
     fetch(`${API}/loans/remind/${loan._id}`, {
       method: "PATCH",
       credentials: "include",
-    })
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((error) => console.error("Error:", error));
+    }).catch((error) => console.error("Error:", error));
+    window.location.reload();
   }
 
   useEffect(() => {
