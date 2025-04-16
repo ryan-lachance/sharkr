@@ -93,10 +93,10 @@ function Dashboard() {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json", 
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          loanName: loanName, 
+          loanName: loanName,
           guild: {
             guildId: guild.id,
             guildName: guild.name,
@@ -128,7 +128,7 @@ function Dashboard() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        loanName: loan.loanName, 
+        loanName: loan.loanName,
         guild: loan.guild,
         lender: loan.lender,
         borrowers: loan.borrowers,
@@ -184,7 +184,7 @@ function Dashboard() {
   }
 
   return (
-    <Container>
+    <Box sx={{ width: "80vw", height: "100vh" }}>
       <NavBar userSession={userSession} logout={logout} login={null} />
 
       <SplitView
@@ -202,7 +202,7 @@ function Dashboard() {
         userSession={userSession}
         createLoan={createLoan}
       />
-    </Container>
+    </Box>
   );
 }
 

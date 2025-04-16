@@ -29,7 +29,8 @@ function Home() {
   }
 
   function inviteBot() {
-    window.location.href = import.meta.env.VITE_BOT_ADD_PATH;
+    window.location.href =
+      "https://discord.com/oauth2/authorize?client_id=1329857247873863792&permissions=0&integration_type=0&scope=bot";
   }
 
   return (
@@ -38,7 +39,7 @@ function Home() {
       <Typography variant="h4" sx={{ paddingBottom: 2 }}>
         Don't shake down your friends for money...
       </Typography>
-      <img src="shark.png" />
+      <img src="shark.png" style={{ maxWidth: "100%" }} />
       <Typography variant="h5" marginBottom={1}>
         ...Let Sharkr do it for you!
       </Typography>

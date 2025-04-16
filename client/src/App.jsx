@@ -39,7 +39,6 @@ function App() {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "100vh",
-          maxWidth: "100%",
           padding: 0,
         }}
       >

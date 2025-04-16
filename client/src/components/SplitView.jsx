@@ -93,8 +93,9 @@ function SplitView({
     <>
       <Paper
         sx={{
-          width: "40vw",
-          height: "80vh",
+          width: "100%",
+          height: "80%",
+          maxWidth: "900px",
           display: "flex",
           mx: "auto",
           mt: 5,
@@ -186,7 +187,7 @@ function SplitView({
                           padding: 0.5,
                         }}
                       >
-                        <Typography sx={{ width: 150 }}>
+                        <Typography sx={{ width: 120 }}>
                           {borrower.borrowerDisplayName ||
                             borrower.borrowerName}
                         </Typography>
