@@ -63,9 +63,7 @@ mongoose
       console.log("Connected to DB and listening on Port 2000!");
     });
   })
-  .catch((error) => {
-    console.log(error);
-  });
+  .catch((error) => {});
 
 cron.schedule(
   "0 0 * * *",

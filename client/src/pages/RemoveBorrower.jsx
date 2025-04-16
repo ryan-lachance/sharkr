@@ -13,8 +13,6 @@ function RemoveBorrowerPage() {
     "If you have paid this loan, or you believe you were messaged by mistake, click below."
   );
   const [deleted, setDeleted] = useState(false);
-  console.log(loanId);
-  console.log(borrowerId);
   const API = import.meta.env.VITE_API_PATH;
 
   function removeBorrower() {

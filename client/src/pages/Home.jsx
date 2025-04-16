@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Box, Typography, Button, Paper } from "@mui/material";
 
 //component
 import NavBar from "../components/NavBar";
 
 function Home() {
+  const navigate = useNavigate();
   const API = import.meta.env.VITE_API_PATH;
-  let userSession = { isAuthenticated: false };
+  const [userSession, setUserSession] = useState({ isAuthenticated: false });
 
   useEffect(() => {
     fetch(`${API}/auth/status`, {
@@ -15,13 +17,17 @@ function Home() {
     })
       .then((response) => response.json())
       .then((data) => {
-        userSession = data;
+        setUserSession(data);
       })
       .catch((error) => console.error("Error:", error));
   }, []);
 
   function login() {
-    window.location.href = `${API}/auth`;
+    if (userSession.isAuthenticated) {
+      navigate("/dashboard");
+    } else {
+      window.open(`${API}/auth`, "_blank");
+    }
   }
 
   function logout() {
@@ -29,8 +35,10 @@ function Home() {
   }
 
   function inviteBot() {
-    window.location.href =
-      "https://discord.com/oauth2/authorize?client_id=1329857247873863792&permissions=0&integration_type=0&scope=bot";
+    window.open(
+      "https://discord.com/oauth2/authorize?client_id=1329857247873863792&permissions=0&integration_type=0&scope=bot",
+      "_blank"
+    );
   }
 
   return (
