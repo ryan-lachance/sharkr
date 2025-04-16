@@ -64,7 +64,6 @@ const createLoan = async (req, res) => {
   // add doc to db
   try {
     const { loanName, guild, lender, borrowers } = req.body;
-    console.log("creating loan");
     const authStatus = getAuthStatus(req, res, lender.lenderId);
 
     if (authStatus) {

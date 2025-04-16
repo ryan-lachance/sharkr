@@ -21,7 +21,7 @@ function Dashboard() {
     isAuthenticated: false,
     user: { id: null },
   });
-  const [guilds, setGuilds] = useState([]);
+  const [guilds, setGuilds] = useState(null);
   const [loans, setLoans] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -81,7 +81,6 @@ function Dashboard() {
         return response.json();
       })
       .then((data) => {
-        console.log("Deleted successfully:", data);
         window.location.reload();
       })
       .catch((error) => console.error("Error:", error));
@@ -166,11 +165,10 @@ function Dashboard() {
       getUserLoans();
       getGuilds();
     }
-    console.log(userSession);
   }, [userSession]);
 
   useEffect(() => {
-    if (guilds.length > 0) {
+    if (guilds != null) {
       setLoading(false);
     }
   }, [guilds]);
