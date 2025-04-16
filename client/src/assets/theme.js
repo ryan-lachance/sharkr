@@ -1,21 +1,20 @@
-// theme.js or theme.ts
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#244d91", // your custom blue or any color
+      main: "#244d91",
     },
     secondary: {
-      main: "#384254", // optional: for secondary buttons
+      main: "#384254",
     },
     error: {
       main: "#821d20",
     },
     textField: {},
     background: {
-      default: "#0b2a41", // light gray, or any color you want
+      default: "#0b2a41",
       paper: "#0b2a41",
     },
   },

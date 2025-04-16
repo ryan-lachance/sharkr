@@ -22,8 +22,7 @@ function Dashboard() {
     user: { id: null },
   });
   const [guilds, setGuilds] = useState([]);
-  //need a guild members prop?
-  const [loans, setLoans] = useState([]); //Get all loans of the current user.
+  const [loans, setLoans] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -94,10 +93,10 @@ function Dashboard() {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json", // Ensure the server knows it's JSON
+          "Content-Type": "application/json", 
         },
         body: JSON.stringify({
-          loanName: loanName, // Example data, replace with real input
+          loanName: loanName, 
           guild: {
             guildId: guild.id,
             guildName: guild.name,
@@ -126,10 +125,10 @@ function Dashboard() {
       method: "PATCH",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json", // Ensure the server knows it's JSON
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        loanName: loan.loanName, // Example data, replace with real input
+        loanName: loan.loanName, 
         guild: loan.guild,
         lender: loan.lender,
         borrowers: loan.borrowers,
@@ -151,7 +150,6 @@ function Dashboard() {
         if (!response.ok) {
           throw new Error("Failed to remind loan");
         }
-        // Reload the page after the request is successful
         window.location.reload();
       })
       .catch((error) => {
@@ -178,7 +176,7 @@ function Dashboard() {
   }, [guilds]);
 
   if (loading) {
-    return <Typography>Loading...</Typography>; // Replace with a spinner if needed
+    return <Typography>Loading...</Typography>;
   }
 
   function logout() {

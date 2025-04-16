@@ -148,7 +148,7 @@ function SplitView({
             <Box
               sx={{ display: "flex", height: "100%", flexDirection: "column" }}
             >
-              {selectedGuild?.members ? ( //this
+              {selectedGuild?.members ? (
                 <Box>
                   <Typography sx={{ paddingBottom: 1 }}>
                     Server: {selectedLoan.guild.guildName}

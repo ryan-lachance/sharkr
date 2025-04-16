@@ -28,7 +28,6 @@ app.use(
 );
 app.use(
   session({
-    //Add session store
     secret: env.CORS_SECRET,
     resave: false,
     cookie: {

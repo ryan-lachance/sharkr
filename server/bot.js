@@ -73,12 +73,12 @@ async function guildsWithin() {
         return {
           id: guild.id,
           name: guild.name,
-          icon: guild.icon, // This is the hash, you may need to construct a full URL
-          banner: guild.banner, // Only available for certain servers
-          owner: guild.ownerId === client.user.id, // Checks if bot is owner
-          permissions: guild.permissions?.bitfield || 0, // Bot permissions in this guild
-          permissions_new: guild.permissions?.toString() || "0", // New permissions format
-          features: guild.features, // List of features enabled on this guild
+          icon: guild.icon,
+          banner: guild.banner,
+          owner: guild.ownerId === client.user.id, 
+          permissions: guild.permissions?.bitfield || 0, 
+          permissions_new: guild.permissions?.toString() || "0", 
+          features: guild.features,
           members: fetchedMembers.map((member) => ({
             id: member.id,
             username: member.user.username,
@@ -86,12 +86,12 @@ async function guildsWithin() {
             discriminator: member.user.discriminator,
             avatar: member.user.avatar,
             bot: member.user.bot,
-            roles: member.roles.cache.map((role) => role.name), // List of role names
+            roles: member.roles.cache.map((role) => role.name),
           })),
         };
       } catch (error) {
         console.error(`Error fetching members for guild ${guild.name}:`, error);
-        return null; // Return null or an empty object if fetching fails
+        return null;
       }
     })
   );

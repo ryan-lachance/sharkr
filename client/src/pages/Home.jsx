@@ -43,7 +43,7 @@ function Home() {
         ...Let Sharkr do it for you!
       </Typography>
 
-      <Box // thisone
+      <Box
         sx={{
           width: "100%",
           height: "200px",
