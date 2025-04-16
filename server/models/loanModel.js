@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// Must rebuild loan model.
+
 
 const Schema = mongoose.Schema;
 const loanSchema = new Schema(

@@ -1,4 +1,3 @@
-// PopupDialog.jsx
 import React, { useState } from "react";
 import {
   Dialog,
@@ -35,7 +34,7 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
           disablePortal
           options={guilds}
           getOptionLabel={(option) => option?.name || "Unknown Guild"}
-          value={selectedGuild} // Make sure `guild` is an object, not a string
+          value={selectedGuild}
           onChange={(event, newValue) => setSelectedGuild(newValue)}
           sx={{ width: 250 }}
           renderInput={(params) => (
@@ -57,7 +56,7 @@ const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
               setError(true);
             } else {
               setError(false);
-              createLoan(newLoanName, selectedGuild); // Call your function
+              createLoan(newLoanName, selectedGuild);
             }
           }}
           color="primary"

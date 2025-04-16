@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-//component
 
 function Initalize() {
   const API = import.meta.env.VITE_API_PATH;
