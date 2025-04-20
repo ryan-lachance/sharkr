@@ -71,13 +71,14 @@ async function guildsWithin() {
         const fetchedMembers = await guild.members.fetch(); // Fetch all members
 
         return {
+          // Potentialy get rid of some of these.
           id: guild.id,
           name: guild.name,
           icon: guild.icon,
           banner: guild.banner,
-          owner: guild.ownerId === client.user.id, 
-          permissions: guild.permissions?.bitfield || 0, 
-          permissions_new: guild.permissions?.toString() || "0", 
+          owner: guild.ownerId === client.user.id,
+          permissions: guild.permissions?.bitfield || 0,
+          permissions_new: guild.permissions?.toString() || "0",
           features: guild.features,
           members: fetchedMembers.map((member) => ({
             id: member.id,
