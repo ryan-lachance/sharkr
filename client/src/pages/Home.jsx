@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Box, Typography, Button, Paper } from "@mui/material";
+import { Container, Box, Typography, Button, Paper, Link } from "@mui/material";
 
 //component
 import NavBar from "../components/NavBar";
@@ -47,7 +47,7 @@ function Home() {
       <Typography variant="h4" sx={{ paddingBottom: 2 }}>
         Don't shake down your friends for money...
       </Typography>
-      <img src="shark.png" style={{ maxWidth: "100%" }} />
+      <img src="logo.png" style={{ maxWidth: "50%" }} />
       <Typography variant="h5" marginBottom={1}>
         ...Let Sharkr do it for you!
       </Typography>
@@ -88,6 +88,14 @@ function Home() {
             </Button>
           </Box>
         </Box>
+        <Link href="https://linktr.ee/shreybae">
+          <Typography
+            variant="subtitle2"
+            sx={{ marginTop: 4, color: "lightgray" }}
+          >
+            Logo courtesy of Shreya Langhe
+          </Typography>
+        </Link>
       </Box>
     </Box>
   );
