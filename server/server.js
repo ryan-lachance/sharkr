@@ -55,6 +55,16 @@ app.use("/api/loans", loanRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/guilds", guildRoutes);
 
+app.use((err, req, res, next) => {
+  console.error("OAuth Error:", err);
+
+  // Log provider response if available
+  if (err.oauthError && err.oauthError.data) {
+    console.error("OAuth Provider Response:", err.oauthError.data.toString());
+  }
+
+  res.status(500).json({ error: "OAuth authentication failed." });
+});
 // connect to db
 mongoose
   .connect(env.MONGO_URI)
