@@ -88,6 +88,14 @@ function Home() {
             </Button>
           </Box>
         </Box>
+        <Link href="https://github.com/ryan-lachance/sharkr/blob/release/README.md">
+          <Typography
+            variant="subtitle1"
+            sx={{ marginTop: 4, color: "lightgray" }}
+          >
+            Important note for IOS users
+          </Typography>
+        </Link>
         <Link href="https://linktr.ee/shreybae">
           <Typography
             variant="subtitle2"
