@@ -97,10 +97,7 @@ function Home() {
           </Typography>
         </Link>
         <Link href="https://linktr.ee/shreybae">
-          <Typography
-            variant="subtitle2"
-            sx={{ marginTop: 4, color: "lightgray" }}
-          >
+          <Typography variant="subtitle2" sx={{ color: "lightgray" }}>
             Logo courtesy of Shreya Langhe
           </Typography>
         </Link>
