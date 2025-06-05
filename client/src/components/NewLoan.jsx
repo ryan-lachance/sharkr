@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 
 const NewLoan = ({ open, onClose, guilds, userSession, createLoan }) => {
-  const API = import.meta.env.VITE_API_PATH;
+  const API = "http://localhost:2000/api";
   const [newLoanName, setNewLoanName] = useState("");
   const [selectedGuild, setSelectedGuild] = useState(null);
   const [error, setError] = useState(false);

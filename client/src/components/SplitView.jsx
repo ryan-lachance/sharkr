@@ -33,7 +33,7 @@ function SplitView({
   const [selectedGuild, setSelectedGuild] = useState("");
 
   const handleLoanChange = (event) => {
-    const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
+    const loan = loans.find((l) => l._id === Number(event.target.value)); // Find full loan object
     setSelectedLoan(loan);
     let loanGuild = guilds.find(
       (loanGuild) => loanGuild.id == loan.guild.guildId

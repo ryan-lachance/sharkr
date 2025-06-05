@@ -13,7 +13,7 @@ function RemoveBorrowerPage() {
     "If you have paid this loan, or you believe you were messaged by mistake, click below."
   );
   const [deleted, setDeleted] = useState(false);
-  const API = import.meta.env.VITE_API_PATH;
+  const API = "http://localhost:2000/api";
 
   function removeBorrower() {
     setText("Removing you from the loan...");

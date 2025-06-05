@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 function Initalize() {
-  const API = import.meta.env.VITE_API_PATH;
+  const API = "http://localhost:2000/api";
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 

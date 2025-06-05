@@ -1,7 +1,4 @@
-const { ReturnDocument } = require('mongodb')
-const Loan = require('../models/loanModel')
-const mongoose = require('mongoose')
-const bot = require('../bot') //Bot commands can be called directly in this script, and will work.
+const bot = require('../bot')
 
 
 function intersection(botGuilds, userGuilds, key) {

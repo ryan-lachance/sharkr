@@ -16,7 +16,7 @@ import NavBar from "../components/NavBar";
 import { default as PopUp } from "../components/NewLoan";
 
 function Dashboard() {
-  const API = import.meta.env.VITE_API_PATH;
+  const API = "http://localhost:2000/api";
   const [userSession, setUserSession] = useState({
     isAuthenticated: false,
     user: { id: null },

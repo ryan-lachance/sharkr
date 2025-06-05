@@ -7,7 +7,7 @@ import NavBar from "../components/NavBar";
 
 function Home() {
   const navigate = useNavigate();
-  const API = import.meta.env.VITE_API_PATH;
+  const API = "http://localhost:2000/api";
   const [userSession, setUserSession] = useState({ isAuthenticated: false });
 
   useEffect(() => {

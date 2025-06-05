@@ -1,7 +1,7 @@
-const { ReturnDocument } = require("mongodb");
-const Loan = require("../models/loanModel");
-const mongoose = require("mongoose");
-const bot = require("../bot"); //Bot commands can be called directly in this script, and will work.
+const bot = require("../bot");
+
+let loans = [];
+let idCounter = 0;
 
 const getAuthStatus = (req, res, id) => {
   if (!req.user) {
@@ -50,11 +50,8 @@ const getUsersLoans = async (req, res) => {
       return authStatus;
     }
 
-    const loans = await Loan.find({ "lender.lenderId": id }).sort({
-      createdAt: -1,
-    });
-
-    res.status(200).json(loans);
+    const filteredLoans = loans.filter(loan => loan.lender.lenderId === id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.status(200).json(filteredLoans);
   } catch {
     return res.status(404).json({ error: "No such loan" });
   }
@@ -70,12 +67,16 @@ const createLoan = async (req, res) => {
       return authStatus;
     }
 
-    const loan = await Loan.create({
-      loanName: loanName,
+    const loan = {
+      _id: ++idCounter,
+      loanName,
       guild,
       lender,
       borrowers,
-    });
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    loans.push(loan);
 
     res.status(200).json(loan);
   } catch (error) {
@@ -94,19 +95,19 @@ const updateLoan = async (req, res) => {
       return authStatus;
     }
 
-    // Find and update the loan
-    const loan = await Loan.findByIdAndUpdate(
-      id,
-      { loanName, guild, lender, borrowers },
-      { new: true, runValidators: true } // Return updated document & validate fields
-    );
-
-    // If no loan was found, return an error
-    if (!loan) {
+    const loanIndex = loans.findIndex(loan => loan._id == id);
+    if (loanIndex === -1) {
       return res.status(404).json({ error: "Loan not found" });
     }
-
-    res.status(200).json(loan); // Return updated loan
+    loans[loanIndex] = {
+      ...loans[loanIndex],
+      loanName,
+      guild,
+      lender,
+      borrowers,
+      updatedAt: new Date()
+    };
+    res.status(200).json(loans[loanIndex]);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -116,22 +117,19 @@ const updateLoan = async (req, res) => {
 const deleteLoan = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
+  const loanIndex = loans.findIndex(loan => loan._id == id);
+  if (loanIndex === -1) {
     return res.status(404).json({ error: "No such loan" });
   }
 
-  const loan = await Loan.findOne({ _id: id });
-
-  if (!loan) {
-    return res.status(400).json({ error: "No such loan" });
-  }
+  const loan = loans[loanIndex];
 
   const authStatus = getAuthStatus(req, res, loan.lender.lenderId);
 
   if (authStatus) {
     return authStatus;
   }
-  await Loan.findOneAndDelete({ _id: id });
+  loans.splice(loanIndex, 1);
 
   res.status(200).json(loan);
 };
@@ -141,21 +139,18 @@ const removeBorrower = async (req, res) => {
   try {
     const { loanId, borrowerId } = req.params;
 
-    const updatedLoan = await Loan.findByIdAndUpdate(
-      loanId,
-      { $pull: { borrowers: { borrowerId: borrowerId } } },
-      { new: true } // Returns the updated document
-    );
-
-    if (!updatedLoan) {
+    const loanIndex = loans.findIndex(loan => loan._id == loanId);
+    if (loanIndex === -1) {
       return res.status(404).json({ error: "Loan not found" });
     }
-
-    if (updatedLoan.borrowers.length == 0) {
-      const loan = await Loan.findOneAndDelete({ _id: loanId });
-      res.status(200).json(loan);
+    const updatedBorrowers = loans[loanIndex].borrowers.filter(b => b.borrowerId !== borrowerId);
+    loans[loanIndex].borrowers = updatedBorrowers;
+    loans[loanIndex].updatedAt = new Date();
+    if (updatedBorrowers.length === 0) {
+      const deletedLoan = loans.splice(loanIndex, 1)[0];
+      res.status(200).json(deletedLoan);
     } else {
-      res.json(updatedLoan);
+      res.json(loans[loanIndex]);
     }
   } catch (error) {
     console.error(error);
@@ -166,9 +161,9 @@ const removeBorrower = async (req, res) => {
 const remindLoan = async (req, res) => {
   try {
     const { id } = req.params;
-    const loan = await Loan.findOne({ _id: id });
+    const loan = loans.find(loan => loan._id == id);
 
-    const authStatus = getAuthStatus(req, res, loan.lender.lenderId);
+    const authStatus = getAuthStatus(req, res, loan ? loan.lender.lenderId : null);
     if (authStatus) {
       return authStatus;
     }

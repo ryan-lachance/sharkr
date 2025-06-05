@@ -16,7 +16,7 @@ import NavBar from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const API = import.meta.env.VITE_API_PATH;
+  const API = "http://localhost:2000/api";
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
