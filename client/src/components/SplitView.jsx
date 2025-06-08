@@ -142,12 +142,23 @@ function SplitView({
         {selectedLoan && (
           <Paper
             elevation={2}
-            sx={{ width: "70%", height: "100%", p: 2 }}
+            sx={{
+              width: "70%",
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              p: 2,
+            }}
             key={selectedLoan._id}
           >
             <FormLabel>Loan Information</FormLabel>
             <Box
-              sx={{ display: "flex", height: "100%", flexDirection: "column" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                flexDirection: "column",
+                minHeight: 0, // this is crucial
+              }}
             >
               {selectedGuild?.members ? (
                 <Box>
@@ -176,7 +187,7 @@ function SplitView({
                       <TextField {...params} label="Add Borrower" />
                     )}
                   />
-                  <Box sx={{ overflow: "auto", flexGrow: 1 }}>
+                  <Box sx={{ overflowY: "auto", flexGrow: 1, minHeight: 0 }}>
                     {selectedLoan.borrowers.map((borrower) => (
                       <Box
                         key={borrower.borrowerId}
