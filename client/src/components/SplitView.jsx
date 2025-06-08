@@ -157,95 +157,87 @@ function SplitView({
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
-                minHeight: 0, // this is crucial
+                minHeight: 0, // allow inner Box to shrink if needed
               }}
             >
-              {selectedGuild?.members ? (
-                <Box>
-                  <Typography sx={{ paddingBottom: 1 }}>
-                    Server: {selectedLoan.guild.guildName}
-                  </Typography>
-                  <TextField
-                    label="Loan Name"
-                    defaultValue={selectedLoan.loanName}
-                    onChange={(e) => renameLoan(e.target.value)}
-                    sx={{}}
-                  />
-                  <Autocomplete
-                    disablePortal
-                    blurOnSelect={true}
-                    options={selectedGuild.members}
-                    value={null}
-                    getOptionLabel={(option) =>
-                      option?.displayname || option?.username || "Unknown User"
-                    }
-                    onChange={(event, newValue) => {
-                      addBorrower(newValue);
+              {/* Static top: loan info + autocomplete */}
+              <Typography sx={{ paddingBottom: 1 }}>
+                Server: {selectedLoan.guild.guildName}
+              </Typography>
+              <TextField
+                label="Loan Name"
+                defaultValue={selectedLoan.loanName}
+                onChange={(e) => renameLoan(e.target.value)}
+              />
+              <Autocomplete
+                disablePortal
+                blurOnSelect={true}
+                options={selectedGuild.members}
+                value={null}
+                getOptionLabel={(option) =>
+                  option?.displayname || option?.username || "Unknown User"
+                }
+                onChange={(event, newValue) => addBorrower(newValue)}
+                sx={{ paddingTop: 1, paddingBottom: 1 }}
+                renderInput={(params) => (
+                  <TextField {...params} label="Add Borrower" />
+                )}
+              />
+
+              {/* ✅ SCROLLABLE LIST OF BORROWERS */}
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  overflowY: "auto",
+                  minHeight: 0,
+                  mb: 2, // space before buttons
+                }}
+              >
+                {selectedLoan.borrowers.map((borrower) => (
+                  <Box
+                    key={borrower.borrowerId}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      padding: 0.5,
                     }}
-                    sx={{ paddingTop: 1, paddingBottom: 1 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Add Borrower" />
-                    )}
-                  />
-                  <Box sx={{ overflowY: "auto", flexGrow: 1, minHeight: 0 }}>
-                    {selectedLoan.borrowers.map((borrower) => (
-                      <Box
-                        key={borrower.borrowerId}
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          padding: 0.5,
-                        }}
-                      >
-                        <Typography sx={{ width: 120 }}>
-                          {borrower.borrowerDisplayName ||
-                            borrower.borrowerName}
-                        </Typography>
-                        <TextField
-                          label="Amount"
-                          type="number"
-                          defaultValue={borrower.owed}
-                          onChange={(e) =>
-                            setOwed(e.target.value, borrower.borrowerId)
-                          }
-                        />
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="error"
-                          onClick={() => removeBorrower(borrower.borrowerId)}
-                        >
-                          X
-                        </Button>
-                      </Box>
-                    ))}
+                  >
+                    <Typography sx={{ width: 120 }}>
+                      {borrower.borrowerDisplayName || borrower.borrowerName}
+                    </Typography>
+                    <TextField
+                      label="Amount"
+                      type="number"
+                      defaultValue={borrower.owed}
+                      onChange={(e) =>
+                        setOwed(e.target.value, borrower.borrowerId)
+                      }
+                    />
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="error"
+                      onClick={() => removeBorrower(borrower.borrowerId)}
+                    >
+                      X
+                    </Button>
                   </Box>
-                </Box>
-              ) : (
-                <Typography>
-                  Sharkr can no logner access the server associated with this
-                  loan.
-                </Typography>
-              )}
-              <Box sx={{ paddingBottom: 2, paddingTop: 2 }}>
+                ))}
+              </Box>
+
+              {/* Static bottom: buttons */}
+              <Box sx={{ paddingBottom: 2 }}>
                 <Button
                   variant="contained"
-                  sx={{ mt: "auto", width: "20%" }}
-                  onClick={async () => {
-                    updateLoan(selectedLoan);
-                  }}
+                  sx={{ width: "20%" }}
+                  onClick={async () => updateLoan(selectedLoan)}
                 >
                   Update
                 </Button>
                 <Button
                   variant="contained"
-                  sx={{
-                    mt: "auto",
-                    width: "20%",
-                    marginLeft: 0.5,
-                    marginRight: 0.5,
-                  }}
+                  sx={{ width: "20%", mx: 0.5 }}
                   onClick={() => remindLoan(selectedLoan)}
                 >
                   Remind All
@@ -253,10 +245,7 @@ function SplitView({
                 <Button
                   variant="contained"
                   color="error"
-                  sx={{
-                    mt: "auto",
-                    width: "20%",
-                  }}
+                  sx={{ width: "20%" }}
                   onClick={() => deleteLoan(selectedLoan._id)}
                 >
                   Delete
