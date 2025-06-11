@@ -78,7 +78,7 @@ mongoose
 cron.schedule(
   "0 0 * * *",
   () => {
-    bot.maintain();
+    //bot.maintain();
   },
   {
     scheduled: true,
