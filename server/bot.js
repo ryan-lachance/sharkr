@@ -26,12 +26,16 @@ async function remind(loanId) {
     for (const borrower of loan.borrowers) {
       const user = await client.users.fetch(borrower.borrowerId);
 
-      if (!user.bot) {
-        await user.send(
-          `This is a reminder you owe ${loan.lender.lenderDisplayName} ${borrower.owed} doubloons for ${loan.loanName}.\n` +
-            `If you have paid this loan, or you believe this is a mistake, click here: ${env.CLIENT_URL}/loans/${loan._id}/${borrower.borrowerId}`
-        );
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
+      try {
+        if (!user.bot) {
+          await user.send(
+            `This is a reminder you owe ${loan.lender.lenderDisplayName} ${borrower.owed} doubloons for ${loan.loanName}.\n` +
+              `If you have paid this loan, or you believe this is a mistake, click here: ${env.CLIENT_URL}/loans/${loan._id}/${borrower.borrowerId}`
+          );
+          await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
+        }
+      } catch (error) {
+        console.error("Can't Message:" + user.displayName, error);
       }
     }
   } catch (error) {
