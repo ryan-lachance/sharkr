@@ -93,20 +93,34 @@ function SplitView({
     <>
       <Paper
         sx={{
-          width: "100%",
-          height: "80%",
-          maxWidth: "900px",
+          width: {
+            xs: "100%", // mobile: full width, fluid
+            md: "900px", // desktop (medium+ screens): fixed 900px width
+          },
+          height: {
+            xs: "90%",
+            sm: "800px",
+          },
+          maxWidth: "100%", // make sure it never overflows container on small screens
+          maxHeight: "95%",
           display: "flex",
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
           mx: "auto",
           mt: 5,
           overflow: "hidden",
         }}
         elevation={2}
       >
-        {/* Left Section - Loan Selector */}
+        {/* Loan Selector */}
         <Paper
           sx={{
-            width: "30%",
+            width: {
+              xs: "100%", // Full width on mobile
+              sm: "30%", // Sidebar on larger screens
+            },
             p: 2,
             display: "flex",
             flexDirection: "column",
@@ -138,13 +152,19 @@ function SplitView({
           </Button>
         </Paper>
 
-        {/* Right Section - Content */}
+        {/* Loan Detail */}
         {selectedLoan && (
           <Paper
             elevation={2}
             sx={{
-              width: "70%",
-              height: "100%",
+              width: {
+                xs: "100%",
+                sm: "70%",
+              },
+              height: {
+                xs: "100%",
+                sm: "800px",
+              },
               display: "flex",
               flexDirection: "column",
               p: 2,
@@ -184,13 +204,16 @@ function SplitView({
                 )}
               />
 
-              {/* ✅ SCROLLABLE LIST OF BORROWERS */}
               <Box
                 sx={{
                   flexGrow: 1,
                   overflowY: "auto",
                   minHeight: 0,
-                  mb: 2, // space before buttons
+                  mb: 2,
+                  height: {
+                    xs: "250px",
+                    sm: "800px",
+                  },
                 }}
               >
                 {selectedLoan.borrowers.map((borrower) => (
