@@ -93,7 +93,7 @@ function Home() {
             variant="subtitle1"
             sx={{ marginTop: 4, color: "lightgray" }}
           >
-            Important note for IOS users
+            Can't login? Troubleshoot here.
           </Typography>
         </Link>
         <Link href="https://linktr.ee/shreybae">
