@@ -99,7 +99,6 @@ function SplitView({
           },
           height: {
             xs: "90%",
-            sm: "800px",
           },
           maxWidth: "100%", // make sure it never overflows container on small screens
           maxHeight: "95%",
@@ -110,7 +109,7 @@ function SplitView({
           },
           mx: "auto",
           mt: 5,
-          overflow: "hidden",
+          overflow: "auto",
         }}
         elevation={2}
       >
