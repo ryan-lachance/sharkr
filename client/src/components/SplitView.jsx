@@ -109,7 +109,6 @@ function SplitView({
           },
           mx: "auto",
           mt: 5,
-          overflow: "auto",
         }}
         elevation={2}
       >
