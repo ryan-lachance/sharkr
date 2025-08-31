@@ -103,6 +103,7 @@ function SplitView({
           maxWidth: "100%", // make sure it never overflows container on small screens
           maxHeight: "95%",
           display: "flex",
+          overflow: "auto",
           flexDirection: {
             xs: "column",
             sm: "row",
@@ -161,7 +162,6 @@ function SplitView({
               },
               height: {
                 xs: "100%",
-                sm: "800px",
               },
               display: "flex",
               flexDirection: "column",
