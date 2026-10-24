@@ -36,8 +36,12 @@ function SplitView({
     const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
     setSelectedLoan(loan);
     let loanGuild = guilds.find(
-      (loanGuild) => loanGuild.id == loan.guild.guildId
+      (loanGuild) => loanGuild.id == loan.guild.guildId,
     );
+    if (loanGuild.members == undefined) {
+      deleteLoan(selectedLoan._id);
+    }
+
     setSelectedGuild(loanGuild);
   };
 
@@ -84,7 +88,7 @@ function SplitView({
     setSelectedLoan((prevLoan) => ({
       ...prevLoan,
       borrowers: prevLoan.borrowers.map((b) =>
-        b.borrowerId === borrowerId ? { ...b, owed: value } : b
+        b.borrowerId === borrowerId ? { ...b, owed: value } : b,
       ),
     }));
   }
