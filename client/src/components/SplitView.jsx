@@ -39,7 +39,7 @@ function SplitView({
       (loanGuild) => loanGuild.id == loan.guild.guildId,
     );
 
-    if (loanGuild.members == undefined) {
+    if (!loanGuild?.members) {
       deleteLoan(loan._id);
     }
 
