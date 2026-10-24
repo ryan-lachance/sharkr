@@ -14,9 +14,57 @@ const client = new Client({
 });
 
 console.log("Bot is running");
+cacheAllGuildMembers();
 
 async function maintain() {
   await remindAll();
+}
+
+// Store the members of all guilds without breaking rate limitss;.
+async function cacheAllGuildMembers() {
+  // Wait for connection to stabalize
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log("Starting full member cache process across all guilds...");
+
+  for (const guild of client.guilds.cache.values()) {
+    let success = false;
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    while (!success && attempts < maxAttempts) {
+      attempts++;
+      try {
+        console.log(
+          `[Attempt ${attempts}] Pre-loading cache for: ${guild.name} (${guild.memberCount} members)...`,
+        );
+
+        // This fetches everyone and stores them in guild.members.cache
+        await guild.members.fetch();
+
+        console.log(`Successfully cached members for ${guild.name}.`);
+        success = true;
+      } catch (error) {
+        if (
+          error.name === "GatewayRateLimitError" ||
+          error.message?.includes("opcode 8")
+        ) {
+          const waitTime = error.retryAfter ? error.retryAfter * 1000 : 30000;
+          console.warn(
+            `Opcode 8 rate-limited on "${guild.name}". Waiting ${(waitTime / 1000).toFixed(1)} seconds...`,
+          );
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+        } else {
+          console.error(`Error caching members for ${guild.name}:`, error);
+          break; // Stop retrying on other errors
+        }
+      }
+    }
+
+    // 3-second breathing room buffer between guilds
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+
+  console.log("🎉 All guild members have been successfully cached!");
 }
 
 async function remind(loanId) {
@@ -30,7 +78,7 @@ async function remind(loanId) {
         if (!user.bot) {
           await user.send(
             `This is a reminder you owe ${loan.lender.lenderDisplayName} ${borrower.owed} doubloons for ${loan.loanName}.\n` +
-              `If you have paid this loan, or you believe this is a mistake, click here: ${env.CLIENT_URL}/loans/${loan._id}/${borrower.borrowerId}`
+              `If you have paid this loan, or you believe this is a mistake, click here: ${env.CLIENT_URL}/loans/${loan._id}/${borrower.borrowerId}`,
           );
           await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
         }
@@ -54,7 +102,7 @@ async function remindAll() {
           if (!user.bot) {
             await user.send(
               `This is a reminder you owe ${loan.lender.lenderDisplayName} ${borrower.owed} doubloons for ${loan.loanName}.\n` +
-                `If you have paid this loan, or you believe this is a mistake, click here: ${env.CLIENT_URL}/loans/${loan._id}/${borrower.borrowerId}`
+                `If you have paid this loan, or you believe this is a mistake, click here: ${env.CLIENT_URL}/loans/${loan._id}/${borrower.borrowerId}`,
             );
             await new Promise((resolve) => setTimeout(resolve, 2000)); // 2s delay
           }
@@ -72,7 +120,7 @@ async function guildsWithin() {
   return Promise.all(
     client.guilds.cache.map(async (guild) => {
       try {
-        const fetchedMembers = await guild.members.fetch(); // Fetch all members
+        const fetchedMembers = await guild.members.cache; // Now uses cache instead of fetching every time.
 
         return {
           // Potentialy get rid of some of these.
@@ -98,7 +146,7 @@ async function guildsWithin() {
         console.error(`Error fetching members for guild ${guild.name}:`, error);
         return null;
       }
-    })
+    }),
   );
 }
 

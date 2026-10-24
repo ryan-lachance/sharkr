@@ -24,7 +24,7 @@ app.use(
   cors({
     origin: env.CLIENT_URL,
     credentials: true,
-  })
+  }),
 );
 app.use(
   session({
@@ -40,7 +40,7 @@ app.use(
       mongoUrl: env.MONGO_URI,
       collectionName: "sessions",
     }),
-  })
+  }),
 );
 
 app.use(passport.initialize());
@@ -79,9 +79,10 @@ cron.schedule(
   "0 0 * * *",
   () => {
     //bot.maintain();
+    bot.refreshGuilds();
   },
   {
     scheduled: true,
     timezone: "America/New_York",
-  }
+  },
 );
