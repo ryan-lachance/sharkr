@@ -162,10 +162,8 @@ function Dashboard() {
 
   useEffect(() => {
     if (userSession.isAuthenticated) {
-      setTimeout(() => {
-        getUserLoans();
-        getGuilds();
-      }, 1000);
+      getUserLoans();
+      getGuilds();
     }
   }, [userSession]);
 
