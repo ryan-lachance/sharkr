@@ -64,7 +64,7 @@ async function cacheAllGuildMembers() {
     await new Promise((resolve) => setTimeout(resolve, 3000));
   }
 
-  console.log("🎉 All guild members have been successfully cached!");
+  console.log("All guild members have been successfully cached!");
 }
 
 async function remind(loanId) {
@@ -149,6 +149,42 @@ async function guildsWithin() {
     }),
   );
 }
+
+// Cache's server information when bot joins new server.
+client.on("guildCreate", async (guild) => {
+  console.log("Joined a new guild: " + guild.name);
+  let success = false;
+  let attempts = 0;
+  const maxAttempts = 3;
+  while (!success && attempts < maxAttempts) {
+    attempts++;
+    try {
+      console.log(
+        `[Attempt ${attempts}] Pre-loading cache for: ${guild.name} (${guild.memberCount} members)...`,
+      );
+
+      // This fetches everyone and stores them in guild.members.cache
+      await guild.members.fetch();
+
+      console.log(`Successfully cached members for ${guild.name}.`);
+      success = true;
+    } catch (error) {
+      if (
+        error.name === "GatewayRateLimitError" ||
+        error.message?.includes("opcode 8")
+      ) {
+        const waitTime = error.retryAfter ? error.retryAfter * 1000 : 30000;
+        console.warn(
+          `Opcode 8 rate-limited on "${guild.name}". Waiting ${(waitTime / 1000).toFixed(1)} seconds...`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, waitTime));
+      } else {
+        console.error(`Error caching members for ${guild.name}:`, error);
+        break; // Stop retrying on other errors
+      }
+    }
+  }
+});
 
 client.login(env.DISCORD_TOKEN);
 
