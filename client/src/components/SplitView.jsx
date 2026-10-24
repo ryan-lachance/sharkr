@@ -34,14 +34,16 @@ function SplitView({
 
   const handleLoanChange = (event) => {
     const loan = loans.find((l) => l._id === event.target.value); // Find full loan object
-    setSelectedLoan(loan);
+
     let loanGuild = guilds.find(
       (loanGuild) => loanGuild.id == loan.guild.guildId,
     );
+
     if (loanGuild.members == undefined) {
-      deleteLoan(loanGuild._id);
+      deleteLoan(loan._id);
     }
 
+    setSelectedLoan(loan);
     setSelectedGuild(loanGuild);
   };
 
