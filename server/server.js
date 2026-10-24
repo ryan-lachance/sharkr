@@ -79,7 +79,7 @@ cron.schedule(
   "0 0 * * *",
   () => {
     //bot.maintain();
-    bot.refreshGuilds();
+    bot.cacheAllGuildMembers();
   },
   {
     scheduled: true,
